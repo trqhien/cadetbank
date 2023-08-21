@@ -14,6 +14,11 @@ class CadetBankApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: "Jeko",
         scaffoldBackgroundColor: CustomColors.primaryWhiteColor,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: CustomColors.primaryWhiteColor,
+          elevation: 0,
+          titleSpacing: 0,
+        ),
         textTheme: TextTheme(
           displayLarge: CustomStyle._jekoStyle.copyWith(fontSize: 40, color: CustomColors.primaryBlackColor),
           displayMedium: CustomStyle._jekoStyle.copyWith(fontSize: 36, color: CustomColors.primaryBlackColor),
@@ -38,6 +43,20 @@ class CadetBankApp extends StatelessWidget {
           bodyLarge: CustomStyle._cerebriSansProStyle.copyWith(fontSize: 14, color: CustomColors.primaryBlackColor),
           bodyMedium: CustomStyle._cerebriSansProStyle.copyWith(fontSize: 12, color: CustomColors.primaryBlackColor),
         ),
+        inputDecorationTheme: InputDecorationTheme(
+          contentPadding: const EdgeInsets.all(0),
+          labelStyle: CustomStyle._jekoStyle
+            .copyWith(fontSize: 16, fontWeight: FontWeight.w600),
+          hintStyle: CustomStyle._jekoStyle
+            .copyWith(fontSize: 16, color: CustomColors.grey4Color),
+          prefixStyle: CustomStyle._jekoStyle
+            .copyWith(fontSize: 16, fontWeight: FontWeight.w600, height: 1),
+          fillColor: CustomColors.grey1Color,
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          border: const OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          focusedBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+          enabledBorder: const OutlineInputBorder(borderSide: BorderSide(color: Colors.transparent)),
+        ),
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
@@ -51,14 +70,10 @@ class CadetBankApp extends StatelessWidget {
             textStyle: MaterialStatePropertyAll(CustomStyle._jekoBoldStyle.copyWith(fontSize: 16)),
             padding: const MaterialStatePropertyAll(EdgeInsets.symmetric(horizontal: 16)),
             shape: MaterialStatePropertyAll(
-              RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(16),
-              ),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
             )
           ),
-        )
-
+        ),
       ),
     );
   }
