@@ -1,4 +1,6 @@
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
+import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
+import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPasswordPage extends StatefulWidget {
@@ -55,14 +57,17 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isDebug = RegisterDataProvider.of(context)!.debug;
+
     return Scaffold(
+      appBar: CadetBankAppBar.pushStyle(),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(48),
+          padding: const EdgeInsets.all(32),
           child: Column(
             children: [
               Text(
-                "Create password",
+                "Create your password",
                 style: Theme.of(context).textTheme.headlineSmall!
                   .copyWith(fontWeight: FontWeight.w600),
               ),
@@ -110,12 +115,16 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
               ),
               const Spacer(),
               TextButton(
-                onPressed: _isPasswordValid
+                onPressed: _isPasswordValid || isDebug
                   ? () {
-                      // do something here
+                      if (isDebug) {
+                        // Call API
+                      }
+                      
+                      // Route to next screen
                     }
                   : null,
-                child: const Text("Register"),
+                child: const Text("Done"),
               ),
             ],
           ),

@@ -32,7 +32,8 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerData = RegisterDataProvider.of(context)!.registerData;
+    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerData = registerDataProvider.registerData;
     _emailController ??= TextEditingController(text: registerData.email.value);
     validateEmail(_emailController!.text);
     
@@ -75,9 +76,11 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
               ),
               const Spacer(),
               TextButton(
-                onPressed: _isRegisterValid
+                onPressed: _isRegisterValid || registerDataProvider.debug
                   ? () {
-                    registerData.updateEmail(_emailController!.text);
+                    if (!registerDataProvider.debug) {
+                      registerData.updateEmail(_emailController!.text);
+                    }
                     Navigator.of(context).pushNamed("/register/account-type");
                   }
                   : null,

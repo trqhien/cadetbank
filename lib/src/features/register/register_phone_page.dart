@@ -35,7 +35,8 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerData = RegisterDataProvider.of(context)!.registerData;
+    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerData = registerDataProvider.registerData;
     _phoneController ??= TextEditingController(text: registerData.phoneNumber.value);
     validatePhone(_phoneController!.text);
     
@@ -102,11 +103,13 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
               ),
               const Spacer(),
               TextButton(
-                onPressed: _isRegisterValid
+                onPressed: _isRegisterValid || registerDataProvider.debug
                   ? () {
-                    registerData.updatePhoneNumber(_phoneController!.text);
-                    Navigator.of(context).pushNamed("/register/password");
-                  }
+                      if (registerDataProvider.debug) {
+                        registerData.updatePhoneNumber(_phoneController!.text);
+                      }
+                      Navigator.of(context).pushNamed("/register/password");
+                    }
                   : null,
                 child: const Text("Next"),
               ),

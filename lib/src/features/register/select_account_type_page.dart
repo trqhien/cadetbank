@@ -36,7 +36,8 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerData = RegisterDataProvider.of(context)!.registerData;
+    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerData = registerDataProvider.registerData;
     currentValue ??= registerData.accountType.value;
     
     return Scaffold(
@@ -92,11 +93,13 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
               )),
               const Spacer(),
               TextButton(
-                onPressed: currentValue != null
+                onPressed: currentValue != null || registerDataProvider.debug
                   ? () {
-                    registerData.updateAccountType(currentValue!);
-                    Navigator.of(context).pushNamed("/register/phone");
-                  }
+                      if (!registerDataProvider.debug) {
+                        registerData.updateAccountType(currentValue!);
+                      }
+                      Navigator.of(context).pushNamed("/register/phone");
+                    }
                   : null,
                 child: const Text("Next"),
               ),
