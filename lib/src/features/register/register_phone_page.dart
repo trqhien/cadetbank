@@ -41,7 +41,23 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
     validatePhone(_phoneController!.text);
     
     return Scaffold(
-      appBar: CadetBankAppBar.pushStyle(),
+      appBar: CadetBankAppBar.pushStyle(
+        actions: [
+          IconButton(
+            icon: Image.asset(
+              "assets/icons/Bills-2.png",
+              width: 18,
+              height: 18,
+              fit: BoxFit.cover,
+            ),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () {
+              Navigator.of(context).pushNamed("/register/preview");
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -105,7 +121,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
               TextButton(
                 onPressed: _isRegisterValid || registerDataProvider.debug
                   ? () {
-                      if (registerDataProvider.debug) {
+                      if (!registerDataProvider.debug) {
                         registerData.updatePhoneNumber(_phoneController!.text);
                       }
                       Navigator.of(context).pushNamed("/register/password");

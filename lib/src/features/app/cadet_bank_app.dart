@@ -89,7 +89,7 @@ class CadetBankApp extends StatelessWidget {
 }
 class RegisterDataProvider extends InheritedWidget {
   final RegisterData registerData;
-  final debug = true;
+  final debug = false;
 
   const RegisterDataProvider({
     super.key,

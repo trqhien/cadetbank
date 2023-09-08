@@ -4,6 +4,7 @@ import 'package:cadetbank/src/features/onboarding/onboarding_page.dart';
 import 'package:cadetbank/src/features/register/register_email_page.dart';
 import 'package:cadetbank/src/features/register/register_password_page.dart';
 import 'package:cadetbank/src/features/register/register_phone_page.dart';
+import 'package:cadetbank/src/features/register/register_preview_page.dart';
 import 'package:cadetbank/src/features/register/select_account_type_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -78,6 +79,12 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
     case '/register/phone':
       return MaterialPageRoute(
         builder: (context) => const RegisterPhonePage(),
+        settings: settings
+      );
+    case '/register/preview':
+      return MaterialPageRoute(
+        builder: (context) => const RegisterPreviewPage(),
+        fullscreenDialog: true,
         settings: settings
       );
     default:

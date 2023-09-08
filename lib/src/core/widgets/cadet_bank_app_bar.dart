@@ -16,8 +16,7 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
   // final double? iconHeight;
   // final VoidCallback? dismissAction;
   final bool hideBackButton;
-  // final double? elevation;
-  final ShapeBorder? shape;
+  final List<Widget>? actions;
   final AppBarType type;
 
   const CadetBankAppBar._({
@@ -31,8 +30,7 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
     // this.iconColor,
     // this.dismissAction,
     this.hideBackButton = false,
-    // this.elevation,
-    this.shape,
+    this.actions
   }) : super(key: key);
 
   factory CadetBankAppBar.modalStyle() => const CadetBankAppBar._(
@@ -40,9 +38,10 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
     iconAsset: "assets/icons/close.png",
   );
 
-  factory CadetBankAppBar.pushStyle() => const CadetBankAppBar._(
+  factory CadetBankAppBar.pushStyle({List<Widget>? actions}) => CadetBankAppBar._(
     type: AppBarType.push,
     iconAsset: "assets/icons/Left.png",
+    actions: actions,
   );
 
   factory CadetBankAppBar.empty() => const CadetBankAppBar._(
@@ -61,7 +60,6 @@ class _CustomAppBarState extends State<CadetBankAppBar> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      shape: widget.shape,
       title: widget.title,
       elevation: 0,
       backgroundColor: CustomColors.primaryWhiteColor,
@@ -95,6 +93,7 @@ class _CustomAppBarState extends State<CadetBankAppBar> {
           ),
         ),
       ),
+      actions: widget.actions
     );
   }
 }

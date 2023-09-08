@@ -41,7 +41,23 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
     currentValue ??= registerData.accountType.value;
     
     return Scaffold(
-      appBar: CadetBankAppBar.pushStyle(),
+      appBar: CadetBankAppBar.pushStyle(
+        actions: [
+          IconButton(
+            icon: Image.asset(
+              "assets/icons/Bills-2.png",
+              width: 18,
+              height: 18,
+              fit: BoxFit.cover,
+            ),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () {
+              Navigator.of(context).pushNamed("/register/preview");
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),

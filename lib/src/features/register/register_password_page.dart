@@ -60,7 +60,23 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
     final isDebug = RegisterDataProvider.of(context)!.debug;
 
     return Scaffold(
-      appBar: CadetBankAppBar.pushStyle(),
+      appBar: CadetBankAppBar.pushStyle(
+        actions: [
+          IconButton(
+            icon: Image.asset(
+              "assets/icons/Bills-2.png",
+              width: 18,
+              height: 18,
+              fit: BoxFit.cover,
+            ),
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            onPressed: () {
+              Navigator.of(context).pushNamed("/register/preview");
+            },
+          ),
+        ],
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),
@@ -117,10 +133,10 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
               TextButton(
                 onPressed: _isPasswordValid || isDebug
                   ? () {
-                      if (isDebug) {
+                      if (!isDebug) {
                         // Call API
                       }
-                      
+
                       // Route to next screen
                     }
                   : null,
