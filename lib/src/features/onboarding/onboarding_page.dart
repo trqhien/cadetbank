@@ -1,4 +1,4 @@
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
+import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

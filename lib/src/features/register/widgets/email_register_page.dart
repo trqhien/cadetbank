@@ -1,7 +1,9 @@
 
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
 import 'package:cadetbank/src/core/widgets/custom_textfield.dart';
+import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class EmailRegisterPage extends StatelessWidget {
   const EmailRegisterPage({
@@ -10,6 +12,12 @@ class EmailRegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // final isOnboarded = context.dependOnInheritedWidgetOfExactType<Onboarding>()!.isOnboarded;
+    // final primaryColor = Preference.of(context)!.primaryColor;
+    // final isOnboarded = context.inheritFromWidget0fExactType(Onboarding).asset;
+    // final ok = context.getElementForInheritedWidgetOfExactType<Onboarding>();
+
+
     return Scaffold(
         appBar: CadetBankAppBar.modalStyle(),
         body: SafeArea(
@@ -32,8 +40,30 @@ class EmailRegisterPage extends StatelessWidget {
                 const SizedBox(height: 20),
                 const Spacer(),
                 TextButton(
-                  onPressed: () {},
-                  child: const Text("Continue"),
+                  onPressed: () {
+                    // if (primaryColor.value == CustomColors.primaryBlackColor) {
+                    //   primaryColor.value = CustomColors.darkBlue;
+                    // } else {
+                    //   primaryColor.value = CustomColors.primaryBlackColor; 
+                    // }
+  //                   Navigator.push<void>(
+  //                     context,
+  //                     MaterialPageRoute<void>(
+  //                       builder: (BuildContext context) => const Purple()
+  //                     )
+  // );
+                    // Navigator.of(context).popUntil((route) => false);
+                    // Navigator.of(context).canPop();
+                    // Navigator.of(context).maybePop();
+                    // Navigator.of(context).pushAndRemoveUntil(
+                    //   MaterialPageRoute(builder: (context) => const Screen1()),
+                    //   (route) => route.runtimeType == Screen2
+                    //   // ModalRoute.withName('/'),
+                    // );
+                    // Navigator.of(context).pushReplacement(newRoute);
+                    // GoRouter.of(context).pushReplacement("location")  // ("/register"),
+                  },
+                  child: const Text("Toggle primary color"),
                 ),
               ],
             ),

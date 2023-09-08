@@ -1,5 +1,5 @@
+import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppBarType {
@@ -10,8 +10,8 @@ enum AppBarType {
 class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? title;
   // final Color? backgroundColor;
-  final String? iconAsset;
-  final Color? iconColor;
+  final String iconAsset;
+  // final Color? iconColor;
   // final double? iconWidth;
   // final double? iconHeight;
   // final VoidCallback? dismissAction;
@@ -20,30 +20,35 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
   final ShapeBorder? shape;
   final AppBarType type;
 
-  const CadetBankAppBar({
+  const CadetBankAppBar._({
     Key? key,
     required this.type,
     this.title,
     // this.backgroundColor,
-    this.iconAsset,
+    this.iconAsset = "assets/icons/Left.png",
     // this.iconWidth,
     // this.iconHeight,
-    this.iconColor,
+    // this.iconColor,
     // this.dismissAction,
     this.hideBackButton = false,
     // this.elevation,
     this.shape,
   }) : super(key: key);
 
-  factory CadetBankAppBar.modalStyle() => const CadetBankAppBar(
+  factory CadetBankAppBar.modalStyle() => const CadetBankAppBar._(
     type: AppBarType.modal,
     iconAsset: "assets/icons/close.png",
-    // iconHeight: 18,
-    // iconWidth: 18,
   );
-                // onBackButtonPressed: () =>
-                    // ReopenHomeScreenUtil.closeAndResetFullScreen(context),
-  
+
+  factory CadetBankAppBar.pushStyle() => const CadetBankAppBar._(
+    type: AppBarType.push,
+    iconAsset: "assets/icons/Left.png",
+  );
+
+  factory CadetBankAppBar.empty() => const CadetBankAppBar._(
+    type: AppBarType.push,
+    hideBackButton: true,
+  );
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -58,13 +63,15 @@ class _CustomAppBarState extends State<CadetBankAppBar> {
     return AppBar(
       shape: widget.shape,
       title: widget.title,
+      elevation: 0,
+      backgroundColor: CustomColors.primaryWhiteColor,
       leading: Visibility(
         visible: !widget.hideBackButton,
         child: Padding(
           padding: const EdgeInsets.only(left: 0),
           child: IconButton(
             icon: Image.asset(
-              "assets/icons/close.png",
+              widget.iconAsset,
               width: 18,
               height: 18,
               fit: BoxFit.cover,
@@ -72,20 +79,19 @@ class _CustomAppBarState extends State<CadetBankAppBar> {
 
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
-            onPressed: () {
-              // if (widget.onBackButtonPressed != null) {
-              //   widget.onBackButtonPressed!();
-              // } else {
-              //   Navigator.of(context).pop();
-              // }
-              switch (widget.type) {
-                case AppBarType.modal:
-                  GoRouter.of(context).pop();
-                  break;
-                case AppBarType.push:
-                  break;
-              }
-            },
+            onPressed: widget.hideBackButton
+              ? null
+              : () {
+                  switch (widget.type) {
+                    case AppBarType.modal:
+                      // GoRouter.of(context).pop();
+                      Navigator.of(context).pop();
+                      break;
+                    case AppBarType.push:
+                      Navigator.of(context).pop();
+                      break;
+                  }
+                },
           ),
         ),
       ),

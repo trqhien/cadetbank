@@ -1,14 +1,18 @@
 import 'package:cadetbank/src/core/shared_preferences.dart/cadetbank_shared_preferences.dart';
 import 'package:cadetbank/src/features/login/login_page.dart';
 import 'package:cadetbank/src/features/onboarding/onboarding_page.dart';
-import 'package:cadetbank/src/features/register/widgets/email_register_page.dart';
+import 'package:cadetbank/src/features/register/register_email_page.dart';
+import 'package:cadetbank/src/features/register/register_password_page.dart';
+import 'package:cadetbank/src/features/register/register_phone_page.dart';
+import 'package:cadetbank/src/features/register/select_account_type_page.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 GoRouter configRouters() => GoRouter(
   routes: [
     GoRoute(
       path: CadetBankRouter.login.path,
-      builder: (context, state) => const LoginPage(),
+      builder: (context, state) => LoginPage(),
       redirect: (_, __) async {
         final isOnboarded = await CadetBankSharedPreference.getBool(SharedPreferenceKey.isOnboarded) ?? false;
         
@@ -25,7 +29,8 @@ GoRouter configRouters() => GoRouter(
     ),
     GoRoute(
       path: CadetBankRouter.register.path,
-      builder: (context, state) => const EmailRegisterPage(),
+      // builder: (context, state) => const EmailRegisterPage(),
+      builder: (context, state) => const RegisterEmailPage(),
     ),
   ],
 );
@@ -33,7 +38,7 @@ GoRouter configRouters() => GoRouter(
 enum CadetBankRouter implements Comparable<CadetBankRouter> {
   register(path: "/register", name: "Register"),
   onboarding(path: "/onboarding", name: "Onboarding"),
-  login(path: "/", name: "Login");
+  login(path: "/login", name: "Login");
 
   const CadetBankRouter({required this.path, this.name});
 
@@ -44,4 +49,41 @@ enum CadetBankRouter implements Comparable<CadetBankRouter> {
 
   @override
   int compareTo(CadetBankRouter other) => path.compareTo(other.path);
+}
+
+MaterialPageRoute onGenerateRoute(RouteSettings settings) {
+  final routeName = settings.name!;
+
+  switch (routeName) {
+    case '/login':
+      return MaterialPageRoute(
+        builder: (context) => LoginPage(),
+        settings: settings
+      );
+    case '/register/email':
+      return MaterialPageRoute(
+        builder: (context) => const RegisterEmailPage(),
+        settings: settings
+      );
+    case '/register/account-type':
+      return MaterialPageRoute(
+        builder: (context) => const SelectAccountTypePage(),
+        settings: settings
+      );
+    case '/register/password':
+      return MaterialPageRoute(
+        builder: (context) => const RegisterPasswordPage(),
+        settings: settings
+      );
+    case '/register/phone':
+      return MaterialPageRoute(
+        builder: (context) => const RegisterPhonePage(),
+        settings: settings
+      );
+    default:
+      return MaterialPageRoute(
+        builder: (context) => LoginPage(),
+        settings: settings
+      );
+  }
 }

@@ -1,4 +1,5 @@
 
+import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
