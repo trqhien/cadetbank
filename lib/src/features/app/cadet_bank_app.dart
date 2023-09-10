@@ -1,7 +1,9 @@
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_mock_data.dart';
 import 'package:cadetbank/src/core/router/routers.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/styling/text_styles.dart';
-import 'package:cadetbank/src/features/register/register_data.dart';
 import 'package:flutter/material.dart';
 
 class CadetBankApp extends StatelessWidget {
@@ -10,7 +12,7 @@ class CadetBankApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return RegisterDataProvider(
-      // primaryColor: ValueNotifier(CustomColors.primaryBlackColor),
+      registerMock: RegisterMockData.mock(),
       registerData: RegisterData.initial(),
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -87,20 +89,7 @@ class CadetBankApp extends StatelessWidget {
     );
   }
 }
-class RegisterDataProvider extends InheritedWidget {
-  final RegisterData registerData;
-  final debug = false;
 
-  const RegisterDataProvider({
-    super.key,
-    required super.child,
-    required this.registerData,
-  });
-
-  static RegisterDataProvider? of(BuildContext context) {
-    return context.dependOnInheritedWidgetOfExactType<RegisterDataProvider>();
-  }
-
-  @override
-  bool updateShouldNotify(RegisterDataProvider oldWidget) => true;
-}
+// Excercise
+// Check if email has been registered on the fly when register email
+// Check if phone has been registered on the fly when register phone

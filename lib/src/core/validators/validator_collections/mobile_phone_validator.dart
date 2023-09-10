@@ -6,31 +6,9 @@ import 'package:cadetbank/src/core/validators/validator.dart';
 
 part 'mobile_phone_validator.freezed.dart';
 
-/// A valid email address has four parts:
-/// * RECIPIENT_NAME
-/// * @ symbol
-/// * DOMAIN_NAME
-/// * TOP_LEVEL_DOMAIN
-/// 
-/// Format: [RECIPIENT_NAME]@[DOMAIN_NAME].[TOP_LEVEL_DOMAIN]
-/// 
-/// Local name rules:
-/// * Maximum of 64 characters long
-/// * Can consist of uppercase and lowercase letters in English (A-Z, a-z)
-/// * Can consist of digit from 0 to 9
-/// * Can consist of special characters such as . ! # $ % & ' * + - / = ? ^ _ ` { | } ~
-/// 
-/// Domain name rules
-/// * Can consist of uppercase and lowercase letters in English (A-Z, a-z)
-/// * Can consist of digits from 0 to 9 
-/// * Can consist of a hyphen (-)
-/// * Can consist of a period (.)
-/// 
-/// Top domain name rules
-/// * Can consist of uppercase and lowercase letters in English (A-Z, a-z)
 class MobilePhoneValidator implements RegexValidator<MobilePhoneValidatorFailure> {
   @override
-  RegExp get regex => RegExp(r"^\d{9,10}$");
+  RegExp get regex => RegExp(r"^\d{9}$");
 
 
   @override

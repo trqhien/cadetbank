@@ -1,9 +1,7 @@
 
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/core/widgets/custom_textfield.dart';
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+// import 'package:go_router/go_router.dart';
 
 class EmailRegisterPage extends StatelessWidget {
   const EmailRegisterPage({
@@ -32,11 +30,11 @@ class EmailRegisterPage extends StatelessWidget {
                     .copyWith(fontWeight: FontWeight.w600),
                 ),
                 const SizedBox(height: 20),
-                const CustomTextField(
-                  labelText: 'Email',
-                  // validatedField: state.goalNameValidation,
-                  hintText: 'john.doe@xyz.com',
-                ),
+                // const CustomTextField(
+                //   labelText: 'Email',
+                //   // validatedField: state.goalNameValidation,
+                //   hintText: 'john.doe@xyz.com',
+                // ),
                 const SizedBox(height: 20),
                 const Spacer(),
                 TextButton(

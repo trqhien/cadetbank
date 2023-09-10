@@ -138,7 +138,8 @@ class PasswordValidatorError with _$PasswordValidatorError {
     {required String reason}
   ) = _SpecialCharacterValidatorError;
 
-  Object get error => this.when(
+  @override
+  Object get error => when(
     lengthValidatorError: (err, _) => err, 
     uppercaseValidatorError: (err, _) => err, 
     lowercaseValidatorError: (err, _) => err, 
@@ -147,16 +148,16 @@ class PasswordValidatorError with _$PasswordValidatorError {
   );
 
   @override
-  bool operator ==(Object o) => this.when(
-    lengthValidatorError: (err, _) => o is _LengthValidatorError && err == o.error,
-    uppercaseValidatorError: (err, _) => o is _UppercaseValidatorError && err == o.error, 
-    lowercaseValidatorError: (err, _) => o is _LowercaseValidatorError && err == o.error, 
-    numericCharacterValidatorError: (err, _) => o is _NumericCharacterValidatorError && err == o.error, 
-    specialCharacterValidatorError: (err, _) => o is _SpecialCharacterValidatorError && err == o.error,
+  bool operator ==(Object other) => when(
+    lengthValidatorError: (err, _) => other is _LengthValidatorError && err == other.error,
+    uppercaseValidatorError: (err, _) => other is _UppercaseValidatorError && err == other.error, 
+    lowercaseValidatorError: (err, _) => other is _LowercaseValidatorError && err == other.error, 
+    numericCharacterValidatorError: (err, _) => other is _NumericCharacterValidatorError && err == other.error, 
+    specialCharacterValidatorError: (err, _) => other is _SpecialCharacterValidatorError && err == other.error,
   );
 
   @override
-  int get hashCode => this.when(
+  int get hashCode => when(
     lengthValidatorError: (err, _) => err.hashCode, 
     uppercaseValidatorError: (err, _) => err.hashCode, 
     lowercaseValidatorError: (err, _) => err.hashCode, 

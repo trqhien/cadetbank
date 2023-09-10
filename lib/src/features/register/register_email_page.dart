@@ -1,6 +1,6 @@
 import 'package:cadetbank/src/core/validators/validator_collections/email_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
 import 'package:flutter/material.dart';
 
 class RegisterEmailPage extends StatefulWidget {
@@ -34,7 +34,7 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
   Widget build(BuildContext context) {
     final registerDataProvider = RegisterDataProvider.of(context)!;
     final registerData = registerDataProvider.registerData;
-    _emailController ??= TextEditingController(text: registerData.email.value);
+    _emailController ??= TextEditingController(text: registerData.email.value ?? registerDataProvider.registerMock?.email);
     validateEmail(_emailController!.text);
     
     return Scaffold(

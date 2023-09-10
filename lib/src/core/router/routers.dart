@@ -1,4 +1,5 @@
 import 'package:cadetbank/src/core/shared_preferences.dart/cadetbank_shared_preferences.dart';
+import 'package:cadetbank/src/features/home/home_page.dart';
 import 'package:cadetbank/src/features/login/login_page.dart';
 import 'package:cadetbank/src/features/onboarding/onboarding_page.dart';
 import 'package:cadetbank/src/features/register/register_email_page.dart';
@@ -6,6 +7,7 @@ import 'package:cadetbank/src/features/register/register_password_page.dart';
 import 'package:cadetbank/src/features/register/register_phone_page.dart';
 import 'package:cadetbank/src/features/register/register_preview_page.dart';
 import 'package:cadetbank/src/features/register/select_account_type_page.dart';
+import 'package:cadetbank/src/features/register/successful_register_confirmation_page.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -85,6 +87,17 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
       return MaterialPageRoute(
         builder: (context) => const RegisterPreviewPage(),
         fullscreenDialog: true,
+        settings: settings
+      );
+    case '/register/successful':
+      return MaterialPageRoute(
+        builder: (context) => const SuccessfulRegisterConfirmationPage(),
+        fullscreenDialog: true,
+        settings: settings
+      );
+    case '/home':
+      return MaterialPageRoute(
+        builder: (context) => const HomePage(),
         settings: settings
       );
     default:

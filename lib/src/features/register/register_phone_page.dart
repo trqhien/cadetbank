@@ -1,7 +1,6 @@
-import 'package:cadetbank/src/core/validators/validator_collections/email_validator.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/mobile_phone_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPhonePage extends StatefulWidget {
@@ -37,7 +36,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
   Widget build(BuildContext context) {
     final registerDataProvider = RegisterDataProvider.of(context)!;
     final registerData = registerDataProvider.registerData;
-    _phoneController ??= TextEditingController(text: registerData.phoneNumber.value);
+    _phoneController ??= TextEditingController(text: registerData.phoneNumber.value ?? registerDataProvider.registerMock?.mobile);
     validatePhone(_phoneController!.text);
     
     return Scaffold(

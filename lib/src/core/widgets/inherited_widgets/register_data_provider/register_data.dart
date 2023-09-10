@@ -5,7 +5,6 @@ class RegisterData {
   final ValueNotifier<String?> accountType;
   final ValueNotifier<String?> phoneNumber;
   
-
   RegisterData._({
     required this.email, 
     required this.accountType, 
@@ -35,7 +34,5 @@ class RegisterData {
     email.value = null;
     accountType.value = null;
     phoneNumber.value = null;
-    // password.value = null;
-    // notifyListeners();
   }
 }

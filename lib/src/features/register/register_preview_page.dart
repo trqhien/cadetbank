@@ -1,6 +1,6 @@
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPreviewPage extends StatelessWidget {
@@ -34,7 +34,6 @@ class _InfoTable extends StatelessWidget {
   final Map<String, String> tableData;
 
   const _InfoTable({
-    super.key, 
     required this.tableData
   });
 
@@ -69,28 +68,19 @@ class _InfoTable extends StatelessWidget {
 class _InfoCell extends StatelessWidget {
   final String title;
   final String info;
-  final CrossAxisAlignment crossAxisAlignment;
-  final EdgeInsets? padding;
 
   const _InfoCell({
-    super.key, 
     required this.title,
     required this.info,
-    this.padding,
-    this.crossAxisAlignment = CrossAxisAlignment.start,
   });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: padding ??
-          const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 20,
-          ),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: crossAxisAlignment,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
             child: Text(
