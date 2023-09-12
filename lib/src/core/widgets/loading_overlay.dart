@@ -15,6 +15,7 @@ class LoadingOverlay extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Stack(
+      alignment: AlignmentDirectional.topStart,
       children: <Widget>[
         child,
         if (isLoading)

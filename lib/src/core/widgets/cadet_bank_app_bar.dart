@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 
 enum AppBarType {
   modal,
-  push
+  push, 
+  custom,
 }
 
 class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
   final Widget? title;
   // final Color? backgroundColor;
-  final String iconAsset;
+  final String? iconAsset;
   // final Color? iconColor;
   // final double? iconWidth;
   // final double? iconHeight;
   // final VoidCallback? dismissAction;
-  final bool hideBackButton;
+  final Widget? leading;
+  final bool hidesLeadingComponent;
   final List<Widget>? actions;
   final AppBarType type;
 
@@ -24,14 +26,16 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
     required this.type,
     this.title,
     // this.backgroundColor,
-    this.iconAsset = "assets/icons/Left.png",
+    this.iconAsset, // = "assets/icons/Left.png",
+    this.leading,
     // this.iconWidth,
     // this.iconHeight,
     // this.iconColor,
     // this.dismissAction,
-    this.hideBackButton = false,
+    this.hidesLeadingComponent = false,
     this.actions
-  }) : super(key: key);
+  }) : assert(iconAsset == null || leading == null, "`iconAsset` and `leading` cannot simultaneously be null" ),
+  super(key: key);
 
   factory CadetBankAppBar.modalStyle() => const CadetBankAppBar._(
     type: AppBarType.modal,
@@ -44,9 +48,18 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
     actions: actions,
   );
 
+  factory CadetBankAppBar.custom({
+    required Widget leading, 
+    List<Widget>? actions
+  }) => CadetBankAppBar._(
+    type: AppBarType.custom,
+    leading: leading,
+    actions: actions,
+  );
+
   factory CadetBankAppBar.empty() => const CadetBankAppBar._(
     type: AppBarType.push,
-    hideBackButton: true,
+    hidesLeadingComponent: true,
   );
 
   @override
@@ -59,41 +72,52 @@ class CadetBankAppBar extends StatefulWidget implements PreferredSizeWidget {
 class _CustomAppBarState extends State<CadetBankAppBar> {
   @override
   Widget build(BuildContext context) {
-    return AppBar(
-      title: widget.title,
-      elevation: 0,
-      backgroundColor: CustomColors.primaryWhiteColor,
-      leading: Visibility(
-        visible: !widget.hideBackButton,
-        child: Padding(
-          padding: const EdgeInsets.only(left: 0),
-          child: IconButton(
-            icon: Image.asset(
-              widget.iconAsset,
-              width: 18,
-              height: 18,
-              fit: BoxFit.cover,
-            ),
-
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onPressed: widget.hideBackButton
-              ? null
-              : () {
-                  switch (widget.type) {
-                    case AppBarType.modal:
-                      // GoRouter.of(context).pop();
-                      Navigator.of(context).pop();
-                      break;
-                    case AppBarType.push:
-                      Navigator.of(context).pop();
-                      break;
-                  }
-                },
-          ),
-        ),
-      ),
-      actions: widget.actions
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return AppBar(
+          title: widget.title,
+          elevation: 0,
+          backgroundColor: CustomColors.primaryWhiteColor,
+          leadingWidth: !widget.hidesLeadingComponent && widget.leading != null && widget.title == null
+            ? constraints.maxWidth * 0.6
+            : null,
+          leading: widget.hidesLeadingComponent
+            ? null
+            : Align(
+                alignment: Alignment.centerLeft,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: widget.leading ?? _AppBarLeftButton(iconAsset: widget.iconAsset ?? "assets/icons/Left.png")
+                ),
+              ),
+          actions: widget.actions
+        );
+      }
     );
   }
 }
+
+class _AppBarLeftButton extends StatelessWidget {
+  const _AppBarLeftButton({
+    Key? key,
+    required this.iconAsset
+  }) : super(key: key);
+
+  final String iconAsset;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Image.asset(
+        iconAsset,
+        width: 18,
+        height: 18,
+        fit: BoxFit.cover,
+      ),
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      onPressed: () => Navigator.of(context).pop(),
+    );
+  }
+}
+

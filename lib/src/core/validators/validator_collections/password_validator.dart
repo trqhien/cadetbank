@@ -44,7 +44,7 @@ class PasswordValidator implements ValidatorCollection<PasswordValidatorFailure,
       if (failure is TextLengthValidatorFailure) {
         errors.add(PasswordValidatorError.lengthValidatorError(
           failure.error,
-          reason: "Password length must be greater than ${failure.error.maybeWhen(lessThanOrEqualToMin: (min, _) => min, orElse: () => null)}. Current is ${failure.error.failedValue.length}"
+          reason: "Password length must be greater than ${failure.error.maybeWhen(lessThanMin: (min, _, __) => min, orElse: () => null)}. Current is ${failure.error.failedValue.length}"
         ));
       } else if (failure is HasUppercaseValidatorFailure) {
         errors.add(

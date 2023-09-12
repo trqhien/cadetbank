@@ -1,11 +1,17 @@
+import 'package:cadetbank/src/core/network/interceptors/authorization_token_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class DioHelper {
   DioHelper._();
 
-  static Dio dio() {
-    final dio = Dio(
+  static DioHelper shared = DioHelper._();
+
+  Dio? dio;
+
+  void createInstance() {
+    if (dio != null) return;
+    dio = Dio(
       BaseOptions(
         // baseUrl: "https://1fc99592-3686-4f86-9125-961fc3c2ba6f.mock.pstmn.io",
         baseUrl: "http://localhost:3000/api",
@@ -13,7 +19,7 @@ class DioHelper {
         // receiveTimeout: const Duration(seconds: 10),
       )
     );
-    dio.interceptors.add(
+    dio!.interceptors.add(
       PrettyDioLogger(
         requestHeader: true,
         requestBody: true,
@@ -24,35 +30,16 @@ class DioHelper {
         maxWidth: 90
       )
     );
+  }
 
-    // const publicPinsCsv = String.fromEnvironment(JsonKeys.spkiPins);
-    // final csPublicKeyPins =
-    //     publicPinsCsv.separateStringWithToken(Constants.csvSplitter);
+  void updateAuthorizationToken(String token) {
+    if (dio == null) {
+      throw Exception("Dio instance hasn't been created. Did you forget to call DioHelper.share.createInstance()");
+    }
+    
+    dio?.interceptors.add(
+      AuthorizationTokenInterceptor(token),
+    );
 
-    // (dio.httpClientAdapter as DefaultHttpClientAdapter).onHttpClientCreate =
-    //     (client) => SpkiPinner(csPublicKeyPins);
-
-    // dio.interceptors.add(HeaderInterceptor());
-    // if (!DevUtils.isUnitTest) {
-    //   dio.interceptors.add(
-    //     DevUtils.on && DevUtils.useAuthMock
-    //         ? MockAuthorizationTokenInterceptor(
-    //             _methodChannel,
-    //             dio.options.baseUrl,
-    //           )
-    //         : AuthorizationTokenInterceptor(_methodChannel),
-    //   );
-    // }
-    // if (kDebugMode) {
-    //   dio.interceptors.add(LoggerInterceptor());
-    //   //Only prints on test env
-    //   // ignore: avoid_print
-    //   print('The pins are: $csPublicKeyPins');
-    //   SpkiPinner.shouldShowLogs = kDebugMode;
-    // }
-    // dio.interceptors.add(CrashMonitoringLogger());
-    // dio.interceptors.add(ErrorInterceptor());
-
-    return dio;
   }
 }

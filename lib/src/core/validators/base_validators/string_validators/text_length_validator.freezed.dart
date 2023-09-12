@@ -16,41 +16,45 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$TextLengthValidatorError {
+  int? get min => throw _privateConstructorUsedError;
+  int? get max => throw _privateConstructorUsedError;
   String get failedValue => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int min, String failedValue) lessThanOrEqualToMin,
-    required TResult Function(int max, String failedValue) greaterThanMax,
+    required TResult Function(int min, int? max, String failedValue)
+        lessThanMin,
+    required TResult Function(int? min, int max, String failedValue)
+        greaterThanMax,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult? Function(int max, String failedValue)? greaterThanMax,
+    TResult? Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult? Function(int? min, int max, String failedValue)? greaterThanMax,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult Function(int max, String failedValue)? greaterThanMax,
+    TResult Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult Function(int? min, int max, String failedValue)? greaterThanMax,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LessThanOrEqualToMin value) lessThanOrEqualToMin,
+    required TResult Function(_LessThanOrEqualToMin value) lessThanMin,
     required TResult Function(_GreaterThanMax value) greaterThanMax,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult? Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult? Function(_GreaterThanMax value)? greaterThanMax,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult Function(_GreaterThanMax value)? greaterThanMax,
     required TResult orElse(),
   }) =>
@@ -67,7 +71,7 @@ abstract class $TextLengthValidatorErrorCopyWith<$Res> {
           $Res Function(TextLengthValidatorError) then) =
       _$TextLengthValidatorErrorCopyWithImpl<$Res, TextLengthValidatorError>;
   @useResult
-  $Res call({String failedValue});
+  $Res call({int min, int max, String failedValue});
 }
 
 /// @nodoc
@@ -84,9 +88,19 @@ class _$TextLengthValidatorErrorCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? min = null,
+    Object? max = null,
     Object? failedValue = null,
   }) {
     return _then(_value.copyWith(
+      min: null == min
+          ? _value.min!
+          : min // ignore: cast_nullable_to_non_nullable
+              as int,
+      max: null == max
+          ? _value.max!
+          : max // ignore: cast_nullable_to_non_nullable
+              as int,
       failedValue: null == failedValue
           ? _value.failedValue
           : failedValue // ignore: cast_nullable_to_non_nullable
@@ -103,7 +117,7 @@ abstract class _$$_LessThanOrEqualToMinCopyWith<$Res>
       __$$_LessThanOrEqualToMinCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int min, String failedValue});
+  $Res call({int min, int? max, String failedValue});
 }
 
 /// @nodoc
@@ -119,6 +133,7 @@ class __$$_LessThanOrEqualToMinCopyWithImpl<$Res>
   @override
   $Res call({
     Object? min = null,
+    Object? max = freezed,
     Object? failedValue = null,
   }) {
     return _then(_$_LessThanOrEqualToMin(
@@ -126,6 +141,10 @@ class __$$_LessThanOrEqualToMinCopyWithImpl<$Res>
           ? _value.min
           : min // ignore: cast_nullable_to_non_nullable
               as int,
+      max: freezed == max
+          ? _value.max
+          : max // ignore: cast_nullable_to_non_nullable
+              as int?,
       failedValue: null == failedValue
           ? _value.failedValue
           : failedValue // ignore: cast_nullable_to_non_nullable
@@ -137,16 +156,19 @@ class __$$_LessThanOrEqualToMinCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LessThanOrEqualToMin implements _LessThanOrEqualToMin {
-  const _$_LessThanOrEqualToMin({required this.min, required this.failedValue});
+  const _$_LessThanOrEqualToMin(
+      {required this.min, this.max, required this.failedValue});
 
   @override
   final int min;
+  @override
+  final int? max;
   @override
   final String failedValue;
 
   @override
   String toString() {
-    return 'TextLengthValidatorError.lessThanOrEqualToMin(min: $min, failedValue: $failedValue)';
+    return 'TextLengthValidatorError.lessThanMin(min: $min, max: $max, failedValue: $failedValue)';
   }
 
   @override
@@ -155,12 +177,13 @@ class _$_LessThanOrEqualToMin implements _LessThanOrEqualToMin {
         (other.runtimeType == runtimeType &&
             other is _$_LessThanOrEqualToMin &&
             (identical(other.min, min) || other.min == min) &&
+            (identical(other.max, max) || other.max == max) &&
             (identical(other.failedValue, failedValue) ||
                 other.failedValue == failedValue));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, min, failedValue);
+  int get hashCode => Object.hash(runtimeType, min, max, failedValue);
 
   @JsonKey(ignore: true)
   @override
@@ -172,30 +195,32 @@ class _$_LessThanOrEqualToMin implements _LessThanOrEqualToMin {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int min, String failedValue) lessThanOrEqualToMin,
-    required TResult Function(int max, String failedValue) greaterThanMax,
+    required TResult Function(int min, int? max, String failedValue)
+        lessThanMin,
+    required TResult Function(int? min, int max, String failedValue)
+        greaterThanMax,
   }) {
-    return lessThanOrEqualToMin(min, failedValue);
+    return lessThanMin(min, max, failedValue);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult? Function(int max, String failedValue)? greaterThanMax,
+    TResult? Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult? Function(int? min, int max, String failedValue)? greaterThanMax,
   }) {
-    return lessThanOrEqualToMin?.call(min, failedValue);
+    return lessThanMin?.call(min, max, failedValue);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult Function(int max, String failedValue)? greaterThanMax,
+    TResult Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult Function(int? min, int max, String failedValue)? greaterThanMax,
     required TResult orElse(),
   }) {
-    if (lessThanOrEqualToMin != null) {
-      return lessThanOrEqualToMin(min, failedValue);
+    if (lessThanMin != null) {
+      return lessThanMin(min, max, failedValue);
     }
     return orElse();
   }
@@ -203,30 +228,30 @@ class _$_LessThanOrEqualToMin implements _LessThanOrEqualToMin {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LessThanOrEqualToMin value) lessThanOrEqualToMin,
+    required TResult Function(_LessThanOrEqualToMin value) lessThanMin,
     required TResult Function(_GreaterThanMax value) greaterThanMax,
   }) {
-    return lessThanOrEqualToMin(this);
+    return lessThanMin(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult? Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult? Function(_GreaterThanMax value)? greaterThanMax,
   }) {
-    return lessThanOrEqualToMin?.call(this);
+    return lessThanMin?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult Function(_GreaterThanMax value)? greaterThanMax,
     required TResult orElse(),
   }) {
-    if (lessThanOrEqualToMin != null) {
-      return lessThanOrEqualToMin(this);
+    if (lessThanMin != null) {
+      return lessThanMin(this);
     }
     return orElse();
   }
@@ -235,9 +260,13 @@ class _$_LessThanOrEqualToMin implements _LessThanOrEqualToMin {
 abstract class _LessThanOrEqualToMin implements TextLengthValidatorError {
   const factory _LessThanOrEqualToMin(
       {required final int min,
+      final int? max,
       required final String failedValue}) = _$_LessThanOrEqualToMin;
 
+  @override
   int get min;
+  @override
+  int? get max;
   @override
   String get failedValue;
   @override
@@ -254,7 +283,7 @@ abstract class _$$_GreaterThanMaxCopyWith<$Res>
       __$$_GreaterThanMaxCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({int max, String failedValue});
+  $Res call({int? min, int max, String failedValue});
 }
 
 /// @nodoc
@@ -268,10 +297,15 @@ class __$$_GreaterThanMaxCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? min = freezed,
     Object? max = null,
     Object? failedValue = null,
   }) {
     return _then(_$_GreaterThanMax(
+      min: freezed == min
+          ? _value.min
+          : min // ignore: cast_nullable_to_non_nullable
+              as int?,
       max: null == max
           ? _value.max
           : max // ignore: cast_nullable_to_non_nullable
@@ -287,8 +321,11 @@ class __$$_GreaterThanMaxCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_GreaterThanMax implements _GreaterThanMax {
-  const _$_GreaterThanMax({required this.max, required this.failedValue});
+  const _$_GreaterThanMax(
+      {this.min, required this.max, required this.failedValue});
 
+  @override
+  final int? min;
   @override
   final int max;
   @override
@@ -296,7 +333,7 @@ class _$_GreaterThanMax implements _GreaterThanMax {
 
   @override
   String toString() {
-    return 'TextLengthValidatorError.greaterThanMax(max: $max, failedValue: $failedValue)';
+    return 'TextLengthValidatorError.greaterThanMax(min: $min, max: $max, failedValue: $failedValue)';
   }
 
   @override
@@ -304,13 +341,14 @@ class _$_GreaterThanMax implements _GreaterThanMax {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_GreaterThanMax &&
+            (identical(other.min, min) || other.min == min) &&
             (identical(other.max, max) || other.max == max) &&
             (identical(other.failedValue, failedValue) ||
                 other.failedValue == failedValue));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, max, failedValue);
+  int get hashCode => Object.hash(runtimeType, min, max, failedValue);
 
   @JsonKey(ignore: true)
   @override
@@ -321,30 +359,32 @@ class _$_GreaterThanMax implements _GreaterThanMax {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int min, String failedValue) lessThanOrEqualToMin,
-    required TResult Function(int max, String failedValue) greaterThanMax,
+    required TResult Function(int min, int? max, String failedValue)
+        lessThanMin,
+    required TResult Function(int? min, int max, String failedValue)
+        greaterThanMax,
   }) {
-    return greaterThanMax(max, failedValue);
+    return greaterThanMax(min, max, failedValue);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult? Function(int max, String failedValue)? greaterThanMax,
+    TResult? Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult? Function(int? min, int max, String failedValue)? greaterThanMax,
   }) {
-    return greaterThanMax?.call(max, failedValue);
+    return greaterThanMax?.call(min, max, failedValue);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int min, String failedValue)? lessThanOrEqualToMin,
-    TResult Function(int max, String failedValue)? greaterThanMax,
+    TResult Function(int min, int? max, String failedValue)? lessThanMin,
+    TResult Function(int? min, int max, String failedValue)? greaterThanMax,
     required TResult orElse(),
   }) {
     if (greaterThanMax != null) {
-      return greaterThanMax(max, failedValue);
+      return greaterThanMax(min, max, failedValue);
     }
     return orElse();
   }
@@ -352,7 +392,7 @@ class _$_GreaterThanMax implements _GreaterThanMax {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LessThanOrEqualToMin value) lessThanOrEqualToMin,
+    required TResult Function(_LessThanOrEqualToMin value) lessThanMin,
     required TResult Function(_GreaterThanMax value) greaterThanMax,
   }) {
     return greaterThanMax(this);
@@ -361,7 +401,7 @@ class _$_GreaterThanMax implements _GreaterThanMax {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult? Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult? Function(_GreaterThanMax value)? greaterThanMax,
   }) {
     return greaterThanMax?.call(this);
@@ -370,7 +410,7 @@ class _$_GreaterThanMax implements _GreaterThanMax {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LessThanOrEqualToMin value)? lessThanOrEqualToMin,
+    TResult Function(_LessThanOrEqualToMin value)? lessThanMin,
     TResult Function(_GreaterThanMax value)? greaterThanMax,
     required TResult orElse(),
   }) {
@@ -383,9 +423,13 @@ class _$_GreaterThanMax implements _GreaterThanMax {
 
 abstract class _GreaterThanMax implements TextLengthValidatorError {
   const factory _GreaterThanMax(
-      {required final int max,
+      {final int? min,
+      required final int max,
       required final String failedValue}) = _$_GreaterThanMax;
 
+  @override
+  int? get min;
+  @override
   int get max;
   @override
   String get failedValue;

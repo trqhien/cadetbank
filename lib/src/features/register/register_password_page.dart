@@ -24,7 +24,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
   String? _registerError;
   bool _isPasswordValid = false;
 
-  final dio = DioHelper.dio();
+  final dio = DioHelper.shared.dio!;
   bool isLoading = false;
 
   @override
@@ -161,7 +161,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
         "/users/register",
         data: {
           "email": email,
-          "password": _passwordController.text,
+          "password": password,
           "accountType": accountType,
           "phone": "+84$phone"
         }

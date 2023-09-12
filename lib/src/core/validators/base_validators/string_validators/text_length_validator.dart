@@ -19,11 +19,11 @@ class TextLengthValidator implements Validator<TextLengthValidatorFailure, Strin
 
     if (currentLength < min) {
       return TextLengthValidatorFailure.asLeft(
-        TextLengthValidatorError.lessThanOrEqualToMin(min: min, failedValue: input)
+        TextLengthValidatorError.lessThanMin(min: min, max: max, failedValue: input)
       );
     } else if (max != null && currentLength > max!) {
       return TextLengthValidatorFailure.asLeft(
-        TextLengthValidatorError.greaterThanMax(max: max!, failedValue: input)
+        TextLengthValidatorError.greaterThanMax(min: min, max: max!, failedValue: input)
       );
     }
 
@@ -43,12 +43,14 @@ class TextLengthValidatorFailure extends ValidationFailure<String> {
 
 @freezed
 class TextLengthValidatorError with _$TextLengthValidatorError {
-  const factory TextLengthValidatorError.lessThanOrEqualToMin({
+  const factory TextLengthValidatorError.lessThanMin({
     required int min,
+    int? max,
     required String failedValue
   }) = _LessThanOrEqualToMin;
 
   const factory TextLengthValidatorError.greaterThanMax({
+    int? min,
     required int max,
     required String failedValue
   }) = _GreaterThanMax;

@@ -1,5 +1,5 @@
-import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
+import 'package:cadetbank/src/core/widgets/info_table.dart';
 import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +15,7 @@ class RegisterPreviewPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(32),
-          child: _InfoTable(
+          child: InfoTable(
             tableData: <String, String>{
               "Email": registerData.email.value ?? "N/A",
               "Account Type": registerData.accountType.value ?? "N/A",
@@ -25,81 +25,6 @@ class RegisterPreviewPage extends StatelessWidget {
             }
           ),
         ),
-      ),
-    );
-  }
-}
-
-class _InfoTable extends StatelessWidget {
-  final Map<String, String> tableData;
-
-  const _InfoTable({
-    required this.tableData
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: CustomColors.grey3Color,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: ListView.separated(
-        padding: EdgeInsets.zero,
-        shrinkWrap: true,
-        itemCount: tableData.length,
-        physics: const NeverScrollableScrollPhysics(),
-        itemBuilder: (context, index) => _InfoCell(
-          title: tableData.keys.elementAt(index),
-          info: tableData.values.elementAt(index),
-        ),
-        separatorBuilder: (context, index) {
-          return const Divider(
-            height: 0,
-            indent: 16,
-            endIndent: 16,
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _InfoCell extends StatelessWidget {
-  final String title;
-  final String info;
-
-  const _InfoCell({
-    required this.title,
-    required this.info,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Expanded(
-            child: Text(
-              title,
-              // style: Theme.of(context)
-              //     .jeko
-              //     .fontSize12!
-              //     .semiBold
-              //     .grey5Color
-              //     .textHeight(1.6),
-            )
-          ),
-          Expanded(
-            child: Text(
-              info,
-              // style: Theme.of(context).jeko.fontSize14!.semiBold,
-            )
-          ),
-        ],
       ),
     );
   }

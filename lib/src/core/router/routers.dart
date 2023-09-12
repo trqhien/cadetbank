@@ -2,6 +2,8 @@ import 'package:cadetbank/src/core/shared_preferences.dart/cadetbank_shared_pref
 import 'package:cadetbank/src/features/home/home_page.dart';
 import 'package:cadetbank/src/features/login/login_page.dart';
 import 'package:cadetbank/src/features/onboarding/onboarding_page.dart';
+import 'package:cadetbank/src/features/profile/create_username_page.dart';
+import 'package:cadetbank/src/features/profile/profile_page.dart';
 import 'package:cadetbank/src/features/register/register_email_page.dart';
 import 'package:cadetbank/src/features/register/register_password_page.dart';
 import 'package:cadetbank/src/features/register/register_phone_page.dart';
@@ -97,7 +99,17 @@ MaterialPageRoute onGenerateRoute(RouteSettings settings) {
       );
     case '/home':
       return MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => HomePage(),
+        settings: settings
+      );
+    case '/profile':
+      return MaterialPageRoute(
+        builder: (context) => const ProfilePage(),
+        settings: settings
+      );
+    case '/profile/create-username':
+      return MaterialPageRoute(
+        builder: (context) => const CreateUsernamePage(),
         settings: settings
       );
     default:

@@ -1,89 +1,162 @@
-// import 'package:cadetbank/src/core/validators/validator_collections/email_validator.dart';
-import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
+import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/core/styling/colors.dart';
+import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/logged_in_user_provider/logged_in_user_provider.dart';
+import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
+import 'package:cadetbank/src/network/api_response.dart';
+import 'package:cadetbank/src/network/auth/responses/login_response.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 // import 'package:go_router/go_router.dart';
 
-class LoginPage extends StatelessWidget {
-  LoginPage({super.key});
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
-  final passwordValidator = PasswordValidator();
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  final dio = DioHelper.shared.dio!;
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
+  String? _error;
+  bool _isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.all(48),
-          child: Form(
-            autovalidateMode: AutovalidateMode.always,
-            child: Column(
-              children: [
-                Text(
-                  "Log in",
-                  style: Theme.of(context).textTheme.headlineSmall!
-                    .copyWith(fontWeight: FontWeight.w600),
-                ),
-                TextFormField(
-                  // controller: _controller,
-                  // focusNode: _focusNode,
-                  keyboardType: TextInputType.emailAddress,
-                  autocorrect: false,
-                  style: Theme.of(context).textTheme.titleSmall!
-                    .copyWith(fontWeight: FontWeight.w600),
-                  onChanged: (value) {},
-                  decoration: const InputDecoration(
-                    labelText: "Email",
-                    hintText: "example@abx.xyz",
-                    // errorText: 
-                    // prefixText: "prefix",
-                    // suffixIcon: Padding(
-                    //   padding: const EdgeInsets.only(bottom: 16),
-                    //   child: widget.trailingIcon, // ?? _buildErrorIcon(),
-                  ),
-                ),
-                TextFormField(
-                  // controller: _controller,
-                  // focusNode: _focusNode,
-                  keyboardType: TextInputType.text,
-                  autocorrect: false,
-                  style: Theme.of(context).textTheme.titleSmall!
-                    .copyWith(fontWeight: FontWeight.w600),
-                  onChanged: (value) {},
-                  validator: (value) {
-                    // Ignore validation when user hasn't entered anything
-                    if (value == null || value.isEmpty) return null;
-                    final error = passwordValidator.checkError(value);
-                    return error?.reason;
-                  },
-                  decoration: const InputDecoration(
-                    labelText: "Password",
-                    errorStyle: TextStyle(fontSize: 8),
-                    // hintText: "example@abx.xyz",
-                    // prefixText: "prefix",
-                    // suffixIcon: Padding(
-                    //   padding: const EdgeInsets.only(bottom: 16),
-                    //   child: widget.trailingIcon, // ?? _buildErrorIcon(),
+    final loggedInUser = LoggedInUserDataProvider.of(context)!.userDetails;
+
+    return LoadingOverlay(
+      isLoading: _isLoading,
+      child: Scaffold(
+        appBar: CadetBankAppBar.empty(),
+        body: KeyboardDismissOnTap(
+          child: SafeArea(
+            child: Padding(
+              padding: const EdgeInsets.all(48),
+              child: Form(
+                autovalidateMode: AutovalidateMode.always,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      "Log in",
+                      style: Theme.of(context).textTheme.displayMedium!
+                        .copyWith(fontWeight: FontWeight.w600),
+                      textAlign: TextAlign.center,
                     ),
-                  ),
-                InkWell(
-                  child: const Text("Don't have and account? Register"),
-                  onTap: () {
-                    // GoRouter.of(context).pushReplacement("/register");
-                    Navigator.of(context).pushReplacementNamed("/register/email");
-                  },
+                    const SizedBox(height: 24),
+                    TextFormField(
+                      controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
+                      autocorrect: false,
+                      style: Theme.of(context).textTheme.titleSmall!
+                        .copyWith(fontWeight: FontWeight.w600),
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        labelText: "Email",
+                        hintText: "example@abx.xyz",
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    TextFormField(
+                      controller: _passwordController,
+                      keyboardType: TextInputType.text,
+                      autocorrect: false,
+                      style: Theme.of(context).textTheme.titleSmall!
+                        .copyWith(fontWeight: FontWeight.w600),
+                      onChanged: (value) {},
+                      decoration: const InputDecoration(
+                        labelText: "Password",
+                        errorStyle: TextStyle(fontSize: 8),
+                        hintText: "Enter your password",
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyMedium!,
+                        children: [
+                          const TextSpan(text:"Don't have and account? "),
+                          TextSpan(
+                            text:"Register now",
+                            style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(
+                                color: CustomColors.primaryGreenColor,
+                                fontWeight: FontWeight.w600
+                              ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Navigator.of(context).pushReplacementNamed("/register/email");
+                              }
+                          )
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    TextButton(
+                      onPressed: () async {
+                        FocusScope.of(context).unfocus();
+                        final res = await login(email: _emailController.text, password: _passwordController.text);
+
+                        if (res != null) {
+                          DioHelper.shared.updateAuthorizationToken(res.token);
+                          loggedInUser.value = res.user;
+                          Navigator.of(context).pushReplacementNamed("/home");
+                        }
+                        // GoRouter.of(context).pushReplacement("location")  // ("/register"),
+                      },
+                      child: const Text("Log in"),
+                    ),
+                    if (_error != null)
+                      Text(_error!)
+                  ],
                 ),
-                TextButton(
-                  onPressed: () {
-                    // Navigator.of(context).pushReplacement(newRoute);
-                    // GoRouter.of(context).pushReplacement("location")  // ("/register"),
-                  },
-                  child: const Text("Log in"),
-                ),
-              ],
+              ),
             ),
           ),
         ),
       ),
     );
+  }
+
+  Future<LoginReponse?> login({
+    required String email,
+    required String password
+  }) async {
+    setState(() {
+      _error = null;
+      _isLoading = true;
+    });
+
+    LoginReponse? loginReponse;
+
+    try {
+      final response = await dio.post<Map<String, dynamic>>(
+        "/auth/login",
+        data: {
+          "email": email,
+          "password": password,
+        }
+      );
+
+      final registerData = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
+
+      if (registerData.isSuccessful) {
+        loginReponse = registerData.response!;
+      } else {
+        _error = registerData.error!.reason;
+      }
+    } catch (err) {
+      _error = err.toString();
+    }
+
+    _isLoading = false;
+
+    setState(() {});
+    return loginReponse;
   }
 }
