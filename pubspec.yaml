@@ -20,6 +20,8 @@ dependencies:
   pretty_dio_logger:
   flutter_keyboard_visibility:
 
+  provider: 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

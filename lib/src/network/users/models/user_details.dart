@@ -55,5 +55,4 @@ class UserDetails {
     ^ username.hashCode
     ^ accountType.hashCode
     ^ phone.hashCode;
-  
 }

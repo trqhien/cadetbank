@@ -1,6 +1,7 @@
 import 'package:cadetbank/src/core/validators/validator_collections/mobile_phone_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_inherited.dart';
+import 'package:cadetbank/src/features/register/widgets/login_flow_prompt_text.dart';
 import 'package:flutter/material.dart';
 
 class RegisterPhonePage extends StatefulWidget {
@@ -15,11 +16,9 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
   TextEditingController? _phoneController;
 
   String? _errorText;
-  // String? _currenPhoneNumber;
   bool _isRegisterValid = false;
 
   void validatePhone(String phone) {
-    // currenphone = phone;
     if (phone.isEmpty) {
       _errorText = null;
     } else {
@@ -34,11 +33,11 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerDataProvider = RegisterDataInherited.of(context)!;
     final registerData = registerDataProvider.registerData;
-    _phoneController ??= TextEditingController(text: registerData.phoneNumber.value ?? registerDataProvider.registerMock?.mobile);
+    _phoneController ??= TextEditingController(text: registerData.phoneNumber.value);
     validatePhone(_phoneController!.text);
-    
+
     return Scaffold(
       appBar: CadetBankAppBar.pushStyle(
         actions: [
@@ -61,6 +60,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 "Verify your phone number with a code",
@@ -110,12 +110,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                 ],
               ),
               const SizedBox(height: 32),
-              InkWell(
-                child: const Text("Already have an account? Log in"),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed("/login");
-                },
-              ),
+              const LogInFlowPromptText(),
               const Spacer(),
               TextButton(
                 onPressed: _isRegisterValid || registerDataProvider.debug
@@ -123,6 +118,7 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
                       if (!registerDataProvider.debug) {
                         registerData.updatePhoneNumber(_phoneController!.text);
                       }
+
                       Navigator.of(context).pushNamed("/register/password");
                     }
                   : null,

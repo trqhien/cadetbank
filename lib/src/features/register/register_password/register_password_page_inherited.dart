@@ -1,8 +1,10 @@
 import 'package:cadetbank/src/core/network/dio_helper.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/logged_in_user_provider/logged_in_user_inherited.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_inherited.dart';
 import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
+import 'package:cadetbank/src/features/register/widgets/login_flow_prompt_text.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/auth/responses/login_response.dart';
 import 'package:flutter/material.dart';
@@ -16,8 +18,8 @@ class RegisterPasswordPage extends StatefulWidget {
 
 class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
   final _passwordValidator = PasswordValidator();
-  final _passwordController = TextEditingController();
-  final _confirmPasswordController = TextEditingController();
+  TextEditingController? _passwordController;
+  TextEditingController? _confirmPasswordController;
 
   String? _passwordErrorText;
   String? _confirmPasswordlErrorText;
@@ -29,14 +31,14 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerDataProvider = RegisterDataInherited.of(context)!;
     final isDebug = registerDataProvider.debug;
     final registerData = registerDataProvider.registerData;
 
-    _passwordController.text = registerDataProvider.registerMock?.password ?? "";
-    _confirmPasswordController.text = registerDataProvider.registerMock?.password ?? "";
+    _passwordController ??= TextEditingController(text: registerData.password.value);
+    _confirmPasswordController ??= TextEditingController(text: registerData.confirmPassword.value);
 
-    validateRegister(password: _passwordController.text, confirmPassword: _confirmPasswordController.text);
+    validateRegister(password:_passwordController!.text, confirmPassword: _confirmPasswordController!.text);
 
     return LoadingOverlay(
       isLoading: isLoading,
@@ -62,6 +64,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
           child: Padding(
             padding: const EdgeInsets.all(32),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(
                   "Create your password",
@@ -76,11 +79,11 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
                   style: Theme.of(context).textTheme.titleSmall!
                     .copyWith(fontWeight: FontWeight.w600),
                   onChanged: (value) {
-                    validateRegister(password: value, confirmPassword: _confirmPasswordController.text);
+                    validateRegister(password: value, confirmPassword: _confirmPasswordController!.text);
                   },
                   decoration: InputDecoration(
                     labelText: "Password",
-                    errorStyle: const TextStyle(fontSize: 10),
+                    hintText: "Enter your password",
                     errorText: _passwordErrorText
                   ),
                 ),
@@ -92,42 +95,39 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
                   style: Theme.of(context).textTheme.titleSmall!
                     .copyWith(fontWeight: FontWeight.w600),
                   onChanged: (value) {
-                    validateRegister(password: _passwordController.text, confirmPassword: value);
+                    validateRegister(password: _passwordController!.text, confirmPassword: value);
                   },
                   decoration: InputDecoration(
                     labelText: "Confirm Password",
-                    errorStyle: const TextStyle(fontSize: 10),
+                    hintText: "Re-enter your password",
                     errorText: _confirmPasswordlErrorText
                   ),
                 ),
                 const SizedBox(height: 32),
-                InkWell(
-                  child: const Text("Already have an account? Log in"),
-                  onTap: () {
-                    Navigator.of(context).pushNamedAndRemoveUntil(
-                      "/login", 
-                      (route) => route.settings.name == "/register/email"
-                    );
-                  },
-                ),
+                const LogInFlowPromptText(),
                 const Spacer(),
-                Visibility(
-                  visible: _registerError != null,
-                  child: Text(_registerError?? "")
-                ),
+                Text(_registerError ?? ""),
                 const SizedBox(height: 20),
                 TextButton(
                   onPressed: _isPasswordValid || isDebug
                     ? () async {
+                        // Call register API
                         final res = await register(
                           email: registerData.email.value ?? "",
-                          password: _passwordController.text,
+                          password: _passwordController!.text,
                           accountType: registerData.accountType.value ?? "",
                           phone: registerData.phoneNumber.value ?? ""
                         );
 
                         if (res != null)  {
+                          // Reset registered data back to null
                           registerData.reset();
+
+                          // update current user
+                          final currentUser = LoggedInUserDataInherited.of(context)!.userDetails;
+                          currentUser.value = res.user;
+
+                          // Push to next sreen
                           Navigator.of(context).pushNamed("/register/successful");
                         }
                       }
@@ -147,16 +147,15 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
     required String password,
     required String accountType,
     required String phone,
-    // VoidCallback? completionHandler
   }) async {
     setState(() {
       _registerError = null;
       isLoading = true;
     });
 
-    LoginReponse? loginReponse;
+     LoginReponse? loginReponse;
 
-    try {
+     try {
       final response = await dio.get<Map<String, dynamic>>(
         "/users/register",
         data: {
@@ -167,7 +166,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
         }
       );
 
-      final registerData = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
+       final registerData = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
 
       if (registerData.isSuccessful) {
         loginReponse = registerData.response!;
@@ -178,11 +177,10 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
       _registerError = err.toString();
     }
 
-    isLoading = false;
+     isLoading = false;
 
-    setState(() {});
+     setState(() {});
     return loginReponse;
-    // use stream instead
   }
 
   void validateRegister({required String password, required String confirmPassword}) {
@@ -198,7 +196,10 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
       _confirmPasswordlErrorText = validatePassword(confirmPassword);
     }
 
-    if (_passwordErrorText == null && _confirmPasswordlErrorText == null && confirmPassword.isNotEmpty) {
+    if (_passwordErrorText == null 
+      && _confirmPasswordlErrorText == null 
+      && confirmPassword.isNotEmpty
+    ) {
       _confirmPasswordlErrorText = validatePasswordMissmatched(password, confirmPassword);
     }
 
@@ -220,4 +221,5 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
       ? null
       : "Password mismatched";
   }
+
 }

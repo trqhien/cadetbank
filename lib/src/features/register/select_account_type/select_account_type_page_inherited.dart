@@ -1,6 +1,6 @@
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_inherited.dart';
 import 'package:flutter/material.dart';
 
 class SelectAccountTypePage extends StatefulWidget {
@@ -36,10 +36,10 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerDataProvider = RegisterDataInherited.of(context)!;
     final registerData = registerDataProvider.registerData;
-    currentValue ??= registerData.accountType.value ?? registerDataProvider.registerMock?.accountType;
-    
+    currentValue ??= registerData.accountType.value;
+
     return Scaffold(
       appBar: CadetBankAppBar.pushStyle(
         actions: [
@@ -62,6 +62,7 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 "What kind of account would you like to open today?",
@@ -114,6 +115,7 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
                       if (!registerDataProvider.debug) {
                         registerData.updateAccountType(currentValue!);
                       }
+
                       Navigator.of(context).pushNamed("/register/phone");
                     }
                   : null,
@@ -126,63 +128,6 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
     );
   }
 }
-
-// class _AccountTypeTile extends StatelessWidget {
-//   final String title, description, icon, value;
-//   final String? groupValue;
-//   final Function(String?)? onSelected;
-  
-//   const _AccountTypeTile({
-//     Key? key, 
-//     required this.title, 
-//     required this.description, 
-//     required this.icon, 
-//     required this.value, 
-//     this.groupValue,
-//     this.onSelected
-//   }) : super(key: key);
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return ListTile(
-//       key: key,
-//       contentPadding: const EdgeInsets.symmetric(vertical: 8).copyWith(left: 8),
-//       shape: RoundedRectangleBorder(
-//         borderRadius: BorderRadius.circular(8),
-//         side: const BorderSide(color: CustomColors.grey4Color),
-//       ),
-//       minLeadingWidth: 44,
-//       minVerticalPadding: 0,
-//       horizontalTitleGap: 0,
-//       title: Text(
-//         title, 
-//         style: Theme.of(context).textTheme.titleMedium!
-//           .copyWith(fontWeight: FontWeight.w600)
-//       ),
-//       subtitle: Text(
-//         description,
-//         style: Theme.of(context).textTheme.bodyLarge!
-//           .copyWith(fontWeight: FontWeight.w300)
-//       ),
-//       leading: Image.asset(
-//         icon,
-//         width: 32,
-//         height: 32,
-//         fit: BoxFit.cover,
-//       ),
-//       trailing: Radio(
-//         value: value, 
-//         groupValue: groupValue, 
-//         onChanged: onSelected
-//       ),
-//       onTap: () {
-//         onSelected
-//         _selectType(e.id);
-//       },
-//     );
-//   }
-// }
-
 
 class _AccTypeData {
   final String title;

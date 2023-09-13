@@ -1,6 +1,7 @@
 import 'package:cadetbank/src/core/validators/validator_collections/email_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
-import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_provider.dart';
+import 'package:cadetbank/src/core/widgets/inherited_widgets/register_data_provider/register_data_inherited.dart';
+import 'package:cadetbank/src/features/register/widgets/login_flow_prompt_text.dart';
 import 'package:flutter/material.dart';
 
 class RegisterEmailPage extends StatefulWidget {
@@ -32,9 +33,9 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
 
   @override
   Widget build(BuildContext context) {
-    final registerDataProvider = RegisterDataProvider.of(context)!;
+    final registerDataProvider = RegisterDataInherited.of(context)!;
     final registerData = registerDataProvider.registerData;
-    _emailController ??= TextEditingController(text: registerData.email.value ?? registerDataProvider.registerMock?.email);
+    _emailController ??= TextEditingController(text: registerData.email.value);
     validateEmail(_emailController!.text);
     
     return Scaffold(
@@ -43,6 +44,7 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
         child: Padding(
           padding: const EdgeInsets.all(32),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
                 "Register Email",
@@ -52,14 +54,11 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
               const SizedBox(height: 24),
               TextFormField(
                 controller: _emailController,
-                // initialValue: email,
                 keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 style: Theme.of(context).textTheme.titleSmall!
                   .copyWith(fontWeight: FontWeight.w600),
-                onChanged: (value) {
-                  validateEmail(value);
-                },
+                onChanged: validateEmail,
                 decoration: InputDecoration(
                   labelText: "Email",
                   hintText: "example@maya.ph",
@@ -68,12 +67,7 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
                 ),
               ),
               const SizedBox(height: 32),
-              InkWell(
-                child: const Text("Already have an account? Log in"),
-                onTap: () {
-                  Navigator.of(context).pushReplacementNamed("/login");
-                },
-              ),
+              const LogInFlowPromptText(),
               const Spacer(),
               TextButton(
                 onPressed: _isRegisterValid || registerDataProvider.debug

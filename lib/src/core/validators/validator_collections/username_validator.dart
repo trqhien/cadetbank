@@ -83,6 +83,12 @@ class UsernameValidatorFailure extends ValidationFailure<String> {
   static Left<UsernameValidatorFailure, String> asLeft(List<UsernameValidatorError> errors) {
     return Left(UsernameValidatorFailure(errors));
   }
+
+  bool get containsLengthValidatorError => errors
+    .any((e) => e.isLengthValidatorError);
+
+  bool get containsRegexValidatorError => errors
+    .any((e) => e.isRegexValidatorError);
 }
 
 @freezed
@@ -115,6 +121,16 @@ class UsernameValidatorError with _$UsernameValidatorError {
   int get hashCode => when(
     lengthValidatorError: (err, _) => err.hashCode, 
     regexValidatorError: (err, _) => err.hashCode, 
+  );
+
+  bool get isLengthValidatorError => when(
+    lengthValidatorError: (_, __) => true, 
+    regexValidatorError: (_, __) => false
+  );
+
+  bool get isRegexValidatorError => when(
+    lengthValidatorError: (_, __) => false, 
+    regexValidatorError: (_, __) => true
   );
 }
 
