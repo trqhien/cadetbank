@@ -1,4 +1,3 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
 import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
@@ -107,9 +106,6 @@ class LoginPage extends StatelessWidget {
                                 .login();
         
                               if (res != null) {
-                                // Update http request headers with access token
-                                DioHelper.shared.updateAuthorizationToken(res.token);
-
                                 // update current user
                                 context.read<AppState>().updateCurrentUser(res.user);
                                 

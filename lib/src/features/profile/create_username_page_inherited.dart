@@ -1,4 +1,4 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/styling/text_styles.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/username_validator.dart';
@@ -23,7 +23,7 @@ class _CreateUsernamePageState extends State<CreateUsernamePage> {
   final _scrollController = ScrollController();
   final _focusNode = FocusNode();
 
-  final dio = DioHelper.shared.dio!;
+  final dio = DioClient.shared.dio;
   bool _isLoading = false;
   UsernameValidatorFailure? _error;
   String? _apiError;

@@ -36,11 +36,29 @@ class HomePage extends StatelessWidget {
             },
             child: LayoutBuilder(
               builder: (ctx, constraints) {
-                return ListView.separated(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                  itemBuilder: (ctx, _idx) => const Text("Under construction"),
-                  separatorBuilder: (ctx, _) => const SizedBox(height: 16),
-                  itemCount: 1
+                return Center(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      children: [
+                        const Spacer(),
+                        Image.asset(
+                          "assets/images/Maintenance.png",
+                          width: constraints.maxWidth * 0.6,
+                          height: constraints.maxWidth * 0.6,
+                          fit: BoxFit.cover,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "This page is under construction. \nCome back later.", 
+                          textAlign: TextAlign.center, 
+                          style: Theme.of(context).textTheme.titleSmall!
+                            // .copyWith(fontWeight: FontWeight.w600)   
+                        ),
+                        const Spacer(),
+                      ],
+                    ),
+                  )
                 );
               }
             ),

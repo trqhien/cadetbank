@@ -1,4 +1,4 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/username_validator.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/users/response/update_user_details_response.dart';
@@ -9,7 +9,7 @@ class CreateUsernameProvider extends ChangeNotifier {
     : _currentUsername = "",
       _isLoading = false;
 
-  final dio = DioHelper.shared.dio!;
+  final dio = DioClient.shared.dio;
   final _usernameValidator = UsernameValidator();
   
   String _currentUsername;

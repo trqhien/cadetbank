@@ -1,10 +1,11 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
+import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/auth/responses/login_response.dart';
 import 'package:flutter/material.dart';
 
 class LoginProvider extends ChangeNotifier {
-  final dio = DioHelper.shared.dio!;
+  final dio = DioClient.shared.dio;
 
   bool _isLoading = false;
   String? _error;
@@ -56,6 +57,8 @@ class LoginProvider extends ChangeNotifier {
 
       if (loginData.isSuccessful) {
         loginResponse = loginData.response!;
+        Storage.setString(StorageKey.token, loginResponse.token);
+        Storage.setString(StorageKey.refreshRoken, loginResponse.refreshToken);
       } else {
         _error = loginData.error!.reason;
       }
@@ -66,6 +69,7 @@ class LoginProvider extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
 
+    
     return loginResponse;
   }
 }

@@ -1,4 +1,4 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/auth/responses/login_response.dart';
@@ -15,7 +15,7 @@ class RegisterPasswordProvider extends ChangeNotifier {
       _isLoading = false;
 
   final _passwordValidator = PasswordValidator();
-  final _dio = DioHelper.shared.dio!; 
+  final _dio = DioClient.shared.dio; 
 
   bool _isLoading;
   

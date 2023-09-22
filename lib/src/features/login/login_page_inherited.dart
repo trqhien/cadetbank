@@ -1,10 +1,11 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
 import 'package:cadetbank/src/core/widgets/inherited_widgets/logged_in_user_provider/logged_in_user_inherited.dart';
 import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/auth/responses/login_response.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -17,7 +18,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final dio = DioHelper.shared.dio!;
+  final dio = DioClient.shared.dio;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   String? _error;
@@ -104,7 +105,8 @@ class _LoginPageState extends State<LoginPage> {
 
                         if (res != null) {
                           // Update http request headers with access token
-                          DioHelper.shared.updateAuthorizationToken(res.token);
+                          Storage.setString(StorageKey.token, res.token);
+                          Storage.setString(StorageKey.refreshRoken, res.refreshToken);
 
                           // update current user
                           loggedInUser.value = res.user;

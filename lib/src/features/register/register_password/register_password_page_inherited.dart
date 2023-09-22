@@ -1,4 +1,4 @@
-import 'package:cadetbank/src/core/network/dio_helper.dart';
+import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
 import 'package:cadetbank/src/core/widgets/inherited_widgets/logged_in_user_provider/logged_in_user_inherited.dart';
@@ -26,7 +26,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
   String? _registerError;
   bool _isPasswordValid = false;
 
-  final dio = DioHelper.shared.dio!;
+  final dio = DioClient.shared.dio;
   bool isLoading = false;
 
   @override

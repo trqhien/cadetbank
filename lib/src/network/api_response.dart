@@ -8,13 +8,15 @@ class ApiResponse<M> {
   bool get isSuccessful => code == 1
     && response != null
     && error == null;
+  
+  bool get isTokenExpired => code == 3 && error != null;
 
   const ApiResponse({
     required this.code, 
     this.response, 
     this.error
   }) : assert(response != null || error != null),
-    assert(code == 0 || code == 1);
+    assert(code == 0 || code == 1 || code == 3);
 
   factory ApiResponse.fromJson(
     Map<String, dynamic> json, 
@@ -28,9 +30,16 @@ class ApiResponse<M> {
       return ApiResponse._fromJsonAsResponse(_code, onSuccess(_response));
     } else if (_code == 0 && _error != null) {
       return ApiResponse._fromJsonAsError(_code, ErrorResponse.fromJson(_error));
+    } else if (_code == 3 && _error != null) {
+      return ApiResponse._tokenExpired(_code, ErrorResponse.fromJson(_error));
     }
 
     throw Exception();
+  }
+
+  factory ApiResponse._tokenExpired(int code, ErrorResponse error) {
+    assert(code == 3, "Expired token error must have code = 3");
+    return ApiResponse(code: code, error: error);
   }
 
   factory ApiResponse._fromJsonAsResponse(int code, M res) {

@@ -60,7 +60,7 @@ Widget getPage({
         case StateManagement.inherited:
           return const log_in_inherited.LoginPage();
         case StateManagement.provider:
-          return log_in.LoginPage();
+          return const log_in.LoginPage();
       } 
     case '/register/email':
       switch (stateManagement) {
@@ -127,7 +127,7 @@ Widget getPage({
         case StateManagement.inherited:
           return const log_in_inherited.LoginPage();
         case StateManagement.provider:
-          return log_in.LoginPage();
+          return const log_in.LoginPage();
       } 
   }
 }
