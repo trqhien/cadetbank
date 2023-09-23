@@ -1,3 +1,4 @@
+import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
 import 'package:cadetbank/src/network/api_response.dart';
@@ -91,6 +92,8 @@ class RegisterPasswordProvider extends ChangeNotifier {
 
       if (registerData.isSuccessful) {
         loginReponse = registerData.response!;
+        Storage.setString(StorageKey.token, loginReponse.token);
+        Storage.setString(StorageKey.refreshRoken, loginReponse.refreshToken);
       } else {
         _apiErrorText = registerData.error!.reason;
       }

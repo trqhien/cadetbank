@@ -104,7 +104,7 @@ class _LoginPageState extends State<LoginPage> {
                         final res = await login(email: _emailController.text, password: _passwordController.text);
 
                         if (res != null) {
-                          // Update http request headers with access token
+                          // Update access token
                           Storage.setString(StorageKey.token, res.token);
                           Storage.setString(StorageKey.refreshRoken, res.refreshToken);
 

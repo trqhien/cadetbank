@@ -1,3 +1,4 @@
+import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/core/validators/validator_collections/password_validator.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
@@ -122,6 +123,10 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
                         if (res != null)  {
                           // Reset registered data back to null
                           registerData.reset();
+
+                          // Update access token
+                          Storage.setString(StorageKey.token, res.token);
+                          Storage.setString(StorageKey.refreshRoken, res.refreshToken);
 
                           // update current user
                           final currentUser = LoggedInUserDataInherited.of(context)!.userDetails;

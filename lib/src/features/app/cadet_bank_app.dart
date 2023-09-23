@@ -17,7 +17,6 @@ class CadetBankApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         onGenerateRoute: (settings) => onGenerateRoute(settings, stateManagement: stateManagement),
-        initialRoute: "/login",
         // routerConfig: configRouters(),
         theme: CustomTheme.maya(),
       ),
