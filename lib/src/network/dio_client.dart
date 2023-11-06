@@ -14,7 +14,7 @@ class DioClient {
     final _dio = Dio(
       BaseOptions(
         // baseUrl: "https://1fc99592-3686-4f86-9125-961fc3c2ba6f.mock.pstmn.io",
-        baseUrl: "http://localhost:3000/api",
+        baseUrl: "http://localhost:80/api",
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
       )
