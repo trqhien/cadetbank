@@ -14,17 +14,15 @@ class RedPage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/purple"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/purple"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -46,17 +44,15 @@ class PurplePage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/pink"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/pink"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -78,17 +74,23 @@ class PinkPage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/orange"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/orange"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("pushAndRemoveUntil 🔴"),
+              onPressed: () => Navigator.of(context).pushNamedAndRemoveUntil(
+                "/blue",
+                (route) => route.settings.name == "/red"
+              ),
+            ),
+            const SizedBox(height: 24),
+            TextButton(
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -110,17 +112,20 @@ class OrangePage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/yellow"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/yellow"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("pushReplacement"),
+              onPressed: () => Navigator.of(context).pushReplacementNamed("/yellow"),
+            ),
+            const SizedBox(height: 24),
+            TextButton(
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -142,17 +147,15 @@ class YellowPage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/green"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/green"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -174,17 +177,22 @@ class GreenPage extends StatelessWidget {
           children: [
             const Spacer(),
             TextButton(
-              child: const Text("Go to next page"),
-              onPressed: () => {},
-              // onPressed: () => Navigator.of(context).pushNamed("/blue"),
+              child: const Text("push"),
+              onPressed: () => Navigator.of(context).pushNamed("/blue"),
             ),
             const SizedBox(height: 24),
             TextButton(
-              child: const Text("Go to previous page"),
-              onPressed: () => {},
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              child: const Text("popUntil 🟠"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).popUntil((route) => route.settings.name == "/orange")
+                : null
+            ),
+            const SizedBox(height: 24),
+            TextButton(
+              child: const Text("pop"),
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -204,11 +212,10 @@ class BluePage extends StatelessWidget {
       appBar: CadetBankAppBar.pushStyle(),
       body: Center(
         child: TextButton(
-          child: const Text("Go to previous page"),
-          onPressed: () => {},
-          // onPressed: Navigator.of(context).canPop()
-          //   ? () => Navigator.of(context).pop()
-          //   : null
+          child: const Text("pop"),
+          onPressed: Navigator.of(context).canPop()
+            ? () => Navigator.of(context).pop()
+            : null
         ),
       ),
     );

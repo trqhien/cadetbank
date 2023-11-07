@@ -8,31 +8,38 @@ MaterialPageRoute? onGenerateRoute(RouteSettings settings) {
   switch (routeName) {
     case "/red":
       return MaterialPageRoute(
-        builder: (context) => const RedPage()
+        builder: (context) => const RedPage(),
+        settings: settings,
       );
     case "/purple":
       return MaterialPageRoute(
-        builder: (context) => const PurplePage()
+        builder: (context) => const PurplePage(),
+        settings: settings,
       );
     case "/pink":
       return MaterialPageRoute(
-        builder: (context) => const PinkPage()
+        builder: (context) => const PinkPage(),
+        settings: settings,
       );
     case "/orange":
       return MaterialPageRoute(
-        builder: (context) => const OrangePage()
+        builder: (context) => const OrangePage(),
+        settings: settings,
       );
     case "/yellow":
       return MaterialPageRoute(
-        builder: (context) => const YellowPage()
+        builder: (context) => const YellowPage(),
+        settings: settings,
       );
     case "/green":
       return MaterialPageRoute(
-        builder: (context) => const GreenPage()
+        builder: (context) => const GreenPage(),
+        settings: settings,
       );
     case "/blue":
       return MaterialPageRoute(
-        builder: (context) => const BluePage()
+        builder: (context) => const BluePage(),
+        settings: settings,
       );
     default:
       return null;
