@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, unused_import
+
 import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
@@ -6,9 +8,12 @@ import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
 import 'package:cadetbank/src/network/api_response.dart';
 import 'package:cadetbank/src/network/auth/responses/login_response.dart';
 import 'package:cadetbank/src/network/dio_client.dart';
+import 'package:cadetbank/src/network/error_response.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,16 +23,23 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final dio = DioClient.shared.dio;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  String? _error;
+  String? _response;
   bool _isLoading = false;
+
+  /* 👉 Setup dio instance */
+  final dio = Dio(
+      BaseOptions(
+        baseUrl: "http://localhost:80/api",
+        connectTimeout: const Duration(seconds: 10),
+        receiveTimeout: const Duration(seconds: 10),
+    )
+  );
+
 
   @override
   Widget build(BuildContext context) {
-    final loggedInUser = LoggedInUserDataInherited.of(context)!.userDetails;
-
     return LoadingOverlay(
       isLoading: _isLoading,
       child: Scaffold(
@@ -100,25 +112,47 @@ class _LoginPageState extends State<LoginPage> {
                         // Dismiss keyboard
                         FocusScope.of(context).unfocus();
 
-                        // Call log in API
-                        final res = await login(email: _emailController.text, password: _passwordController.text);
+                        /* 👉 Call API here */
+                        print("---- start calling API ----");
 
-                        if (res != null) {
-                          // Update access token
-                          Storage.setString(StorageKey.token, res.token);
-                          Storage.setString(StorageKey.refreshRoken, res.refreshToken);
+                        /* 👉 ---- /test/health ---- */
+                        // final response = await dio.get("/test/health");
+                        // print("🌮 $response");
 
-                          // update current user
-                          loggedInUser.value = res.user;
+                        /* 👉 ---- /test/greet ---- */
+                        // final response =  await dio.post(
+                        //   "/test/greet",
+                        //   data: {"message": "Welcome to 2023 Cadetship Program"}
+                        // );
+                        // print("🌮 $response");
 
-                          // Push to home screen
-                          Navigator.of(context).pushReplacementNamed("/home");
-                        }
+                        /* 👉 ---- /test/404 ---- */
+                        // try {
+                        //   // final response = await dio.get("/test/404");
+                        //   final response = await dio.get("/test/500");
+                        //   print("🌮 $response");
+                        // } catch (err) {
+                        //   print("❌ $err");
+                        // }
+
+                        /* 👉 ---- /test/500 ---- */
+                        // try {
+                        //   // final response = await dio.get("/test/404");
+                        //   final response = await dio.get("/test/500");
+                        //   print("🌮 $response");
+                        // } catch (err) {
+                        //   print("❌ $err");
+                        // }
+
+                        /* 👉 ---- /auth/login ---- */
+                        await login(email: _emailController.text, password: _passwordController.text);
+
+                        print("---- done calling API ----");
                       },
                       child: const Text("Log in"),
                     ),
-                    if (_error != null)
-                      Text(_error!)
+                    if (_response != null)
+                      Text(_response!)
                   ],
                 ),
               ),
@@ -129,40 +163,103 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  Future<LoginReponse?> login({
+  Future login({
     required String email,
     required String password
   }) async {
     setState(() {
-      _error = null;
+      _response = null;
       _isLoading = true;
     });
 
-    LoginReponse? loginReponse;
+    /* 👉 ---- API request handling starts here ---- */
 
     try {
       final response = await dio.post<Map<String, dynamic>>(
         "/auth/login",
         data: {
           "email": email,
-          "password": password,
+          "password": password
         }
       );
+      final apiResponse = APIResponse.fromJson(response.data!);
 
-      final registerData = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
-
-      if (registerData.isSuccessful) {
-        loginReponse = registerData.response!;
+      if (apiResponse.response != null) {
+        _response = "🌮username: ${apiResponse.response!.user.username} \n email: ${apiResponse.response!.user.email} \n phone: ${apiResponse.response!.user.phone}";
       } else {
-        _error = registerData.error!.reason;
+        _response = apiResponse.error!.reason;
       }
     } catch (err) {
-      _error = err.toString();
+      print("❌ $err");
+      _response = err.toString();
     }
 
-    _isLoading = false;
+    /* 👉 ---- END ---- */
 
+    _isLoading = false;
     setState(() {});
-    return loginReponse;
+  }
+}
+
+class User {
+  final String? username;
+  final String email;
+  final String accountType;
+  final String phone;
+
+  User({
+    this.username, 
+    required this.email, 
+    required this.accountType, 
+    required this.phone
+  });
+
+  factory User.fromJson(Map<String, dynamic> json) {
+    return User(
+      username: json["username"] as String?,
+      email: json["email"] as String,
+      accountType: json["accountType"] as String,
+      phone: json["phone"] as String,
+    );
+  }
+}
+
+class LoginResponse {
+  final String token;
+  final String refreshToken;
+  final User user;
+
+  LoginResponse({required this.token, required this.refreshToken, required this.user});
+
+  factory LoginResponse.fromJson(Map<String, dynamic> json) {
+    return LoginResponse(
+      token: json["token"] as String,
+      refreshToken: json["refreshToken"] as String,
+      user: User.fromJson(json["user"] as Map<String, dynamic>)
+    );
+  }
+}
+
+class APIResponse {
+  final int code;
+  final LoginResponse? response;
+  final ErrorResponse? error;
+
+  const APIResponse({
+    required this.code, 
+    this.response, 
+    this.error
+  });
+
+  factory APIResponse.fromJson(Map<String, dynamic> json) {
+    return APIResponse(
+      code: json["code"] as int,
+      response: json["response"] != null
+        ? LoginResponse.fromJson(json["response"] as Map<String, dynamic>)
+        : null,
+      error: json["error"] != null
+        ? ErrorResponse.fromJson(json["error"] as Map<String, dynamic>)
+        : null
+    );
   }
 }
