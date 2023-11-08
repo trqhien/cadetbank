@@ -29,13 +29,13 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   /* 👉 Setup dio instance */
-  final dio = Dio(
-      BaseOptions(
-        baseUrl: "http://localhost:80/api",
-        connectTimeout: const Duration(seconds: 10),
-        receiveTimeout: const Duration(seconds: 10),
-    )
-  );
+  // final dio = Dio(
+  //     BaseOptions(
+  //       baseUrl: "http://localhost:80/api",
+  //       connectTimeout: const Duration(seconds: 10),
+  //       receiveTimeout: const Duration(seconds: 10),
+  //   )
+  // );
 
 
   @override
@@ -145,7 +145,7 @@ class _LoginPageState extends State<LoginPage> {
                         // }
 
                         /* 👉 ---- /auth/login ---- */
-                        await login(email: _emailController.text, password: _passwordController.text);
+                        // await login(email: _emailController.text, password: _passwordController.text);
 
                         print("---- done calling API ----");
                       },
@@ -174,25 +174,25 @@ class _LoginPageState extends State<LoginPage> {
 
     /* 👉 ---- API request handling starts here ---- */
 
-    try {
-      final response = await dio.post<Map<String, dynamic>>(
-        "/auth/login",
-        data: {
-          "email": email,
-          "password": password
-        }
-      );
-      final apiResponse = APIResponse.fromJson(response.data!);
+    // try {
+    //   final response = await dio.post<Map<String, dynamic>>(
+    //     "/auth/login",
+    //     data: {
+    //       "email": email,
+    //       "password": password
+    //     }
+    //   );
+    //   final apiResponse = APIResponse.fromJson(response.data!);
 
-      if (apiResponse.response != null) {
-        _response = "🌮username: ${apiResponse.response!.user.username} \n email: ${apiResponse.response!.user.email} \n phone: ${apiResponse.response!.user.phone}";
-      } else {
-        _response = apiResponse.error!.reason;
-      }
-    } catch (err) {
-      print("❌ $err");
-      _response = err.toString();
-    }
+    //   if (apiResponse.response != null) {
+    //     _response = "🌮username: ${apiResponse.response!.user.username} \n email: ${apiResponse.response!.user.email} \n phone: ${apiResponse.response!.user.phone}";
+    //   } else {
+    //     _response = apiResponse.error!.reason;
+    //   }
+    // } catch (err) {
+    //   print("❌ $err");
+    //   _response = err.toString();
+    // }
 
     /* 👉 ---- END ---- */
 
