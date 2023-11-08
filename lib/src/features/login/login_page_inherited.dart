@@ -29,13 +29,17 @@ class _LoginPageState extends State<LoginPage> {
   bool _isLoading = false;
 
   /* 👉 Setup dio instance */
-  final dio = Dio(
+  Dio get dio {
+    final _dio = Dio(
       BaseOptions(
         baseUrl: "http://localhost:80/api",
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
-    )
-  );
+      )
+    );
+    _dio.interceptors.add(DioPrinter());
+    return _dio;
+  }
 
 
   @override
@@ -116,33 +120,23 @@ class _LoginPageState extends State<LoginPage> {
                         print("---- start calling API ----");
 
                         /* 👉 ---- /test/health ---- */
-                        // final response = await dio.get("/test/health");
-                        // print("🌮 $response");
+                        // await dio.get("/test/health");
 
                         /* 👉 ---- /test/greet ---- */
-                        // final response =  await dio.post(
+                        // await dio.post(
                         //   "/test/greet",
                         //   data: {"message": "Welcome to 2023 Cadetship Program"}
                         // );
-                        // print("🌮 $response");
 
                         /* 👉 ---- /test/404 ---- */
                         // try {
-                        //   // final response = await dio.get("/test/404");
-                        //   final response = await dio.get("/test/500");
-                        //   print("🌮 $response");
-                        // } catch (err) {
-                        //   print("❌ $err");
-                        // }
+                        //   await dio.get("/test/404");
+                        // } catch (err) {}
 
                         /* 👉 ---- /test/500 ---- */
                         // try {
-                        //   // final response = await dio.get("/test/404");
-                        //   final response = await dio.get("/test/500");
-                        //   print("🌮 $response");
-                        // } catch (err) {
-                        //   print("❌ $err");
-                        // }
+                        //   await dio.get("/test/500");
+                        // } catch (err) {}
 
                         /* 👉 ---- /auth/login ---- */
                         await login(email: _emailController.text, password: _passwordController.text);
@@ -182,7 +176,8 @@ class _LoginPageState extends State<LoginPage> {
           "password": password
         }
       );
-      final apiResponse = APIResponse.fromJson(response.data!);
+      // print("🌮 $response");
+      final apiResponse = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
 
       if (apiResponse.response != null) {
         _response = "🌮username: ${apiResponse.response!.user.username} \n email: ${apiResponse.response!.user.email} \n phone: ${apiResponse.response!.user.phone}";
@@ -201,65 +196,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class User {
-  final String? username;
-  final String email;
-  final String accountType;
-  final String phone;
+class DioPrinter extends Interceptor {
+  @override
+  void onResponse(Response response, ResponseInterceptorHandler handler) {
+    print("🟣 $response");
+    handler.next(response);
+  }
 
-  User({
-    this.username, 
-    required this.email, 
-    required this.accountType, 
-    required this.phone
-  });
-
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      username: json["username"] as String?,
-      email: json["email"] as String,
-      accountType: json["accountType"] as String,
-      phone: json["phone"] as String,
-    );
+  @override
+  void onError(DioException err, ErrorInterceptorHandler handler) {
+    print("🔴 $err");
+    handler.next(err);
   }
 }
 
-class LoginResponse {
-  final String token;
-  final String refreshToken;
-  final User user;
 
-  LoginResponse({required this.token, required this.refreshToken, required this.user});
-
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    return LoginResponse(
-      token: json["token"] as String,
-      refreshToken: json["refreshToken"] as String,
-      user: User.fromJson(json["user"] as Map<String, dynamic>)
-    );
-  }
-}
-
-class APIResponse {
-  final int code;
-  final LoginResponse? response;
-  final ErrorResponse? error;
-
-  const APIResponse({
-    required this.code, 
-    this.response, 
-    this.error
-  });
-
-  factory APIResponse.fromJson(Map<String, dynamic> json) {
-    return APIResponse(
-      code: json["code"] as int,
-      response: json["response"] != null
-        ? LoginResponse.fromJson(json["response"] as Map<String, dynamic>)
-        : null,
-      error: json["error"] != null
-        ? ErrorResponse.fromJson(json["error"] as Map<String, dynamic>)
-        : null
-    );
-  }
-}
