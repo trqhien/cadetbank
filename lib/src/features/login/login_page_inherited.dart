@@ -37,7 +37,7 @@ class _LoginPageState extends State<LoginPage> {
         receiveTimeout: const Duration(seconds: 10),
       )
     );
-    _dio.interceptors.add(DioPrinter());
+    // _dio.interceptors.add(DioPrinter());
     return _dio;
   }
 
@@ -176,7 +176,7 @@ class _LoginPageState extends State<LoginPage> {
           "password": password
         }
       );
-      // print("🌮 $response");
+      print("🌮 $response");
       final apiResponse = ApiResponse.fromJson(response.data!, LoginReponse.fromJson);
 
       if (apiResponse.response != null) {
@@ -196,18 +196,18 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
-class DioPrinter extends Interceptor {
-  @override
-  void onResponse(Response response, ResponseInterceptorHandler handler) {
-    print("🟣 $response");
-    handler.next(response);
-  }
+// class DioPrinter extends Interceptor {
+//   @override
+//   void onResponse(Response response, ResponseInterceptorHandler handler) {
+//     print("🟣 $response");
+//     handler.next(response);
+//   }
 
-  @override
-  void onError(DioException err, ErrorInterceptorHandler handler) {
-    print("🔴 $err");
-    handler.next(err);
-  }
-}
+//   @override
+//   void onError(DioException err, ErrorInterceptorHandler handler) {
+//     print("🔴 $err");
+//     handler.next(err);
+//   }
+// }
 
 
