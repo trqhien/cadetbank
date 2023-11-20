@@ -33,7 +33,6 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
   @override
   Widget build(BuildContext context) {
     final registerDataProvider = RegisterDataInherited.of(context)!;
-    final isDebug = registerDataProvider.debug;
     final registerData = registerDataProvider.registerData;
 
     _passwordController ??= TextEditingController(text: registerData.password.value);
@@ -110,7 +109,7 @@ class _RegisterPasswordPageState extends State<RegisterPasswordPage> {
                 Text(_registerError ?? ""),
                 const SizedBox(height: 20),
                 TextButton(
-                  onPressed: _isPasswordValid || isDebug
+                  onPressed: _isPasswordValid
                     ? () async {
                         // Call register API
                         final res = await register(

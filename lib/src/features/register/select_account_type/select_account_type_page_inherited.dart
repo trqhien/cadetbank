@@ -110,12 +110,9 @@ class _SelectAccountTypePageState extends State<SelectAccountTypePage> {
               )),
               const Spacer(),
               TextButton(
-                onPressed: currentValue != null || registerDataProvider.debug
+                onPressed: currentValue != null
                   ? () {
-                      if (!registerDataProvider.debug) {
-                        registerData.updateAccountType(currentValue!);
-                      }
-
+                      registerData.updateAccountType(currentValue!);
                       Navigator.of(context).pushNamed("/register/phone");
                     }
                   : null,

@@ -34,7 +34,7 @@ class SuccessfulRegisterConfirmationPage extends StatelessWidget {
                 onPressed: () {
                   Navigator.of(context).pushNamedAndRemoveUntil(
                     "/home", 
-                    (route) => route.settings.name == "/register/email"
+                    (route) => false //return false to remote all previous routes
                   );
                 },
               ),

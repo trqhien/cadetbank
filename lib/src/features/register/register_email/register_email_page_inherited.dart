@@ -70,11 +70,9 @@ class _RegisterEmailPageState extends State<RegisterEmailPage> {
               const LogInFlowPromptText(),
               const Spacer(),
               TextButton(
-                onPressed: _isRegisterValid || registerDataProvider.debug
+                onPressed: _isRegisterValid
                   ? () {
-                    if (!registerDataProvider.debug) {
-                      registerData.updateEmail(_emailController!.text);
-                    }
+                    registerData.updateEmail(_emailController!.text);
                     Navigator.of(context).pushNamed("/register/account-type");
                   }
                   : null,

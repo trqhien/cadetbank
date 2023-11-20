@@ -11,7 +11,7 @@ void main() {
 
   runApp(
     const DemoApp(
-      stateManagement: StateManagement.provider
+      stateManagement: StateManagement.inherited
     )
   );
 }

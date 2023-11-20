@@ -113,12 +113,9 @@ class _RegisterPhonePageState extends State<RegisterPhonePage> {
               const LogInFlowPromptText(),
               const Spacer(),
               TextButton(
-                onPressed: _isRegisterValid || registerDataProvider.debug
+                onPressed: _isRegisterValid
                   ? () {
-                      if (!registerDataProvider.debug) {
-                        registerData.updatePhoneNumber(_phoneController!.text);
-                      }
-
+                      registerData.updatePhoneNumber(_phoneController!.text);
                       Navigator.of(context).pushNamed("/register/password");
                     }
                   : null,
