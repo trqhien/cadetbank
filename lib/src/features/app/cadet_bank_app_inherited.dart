@@ -17,17 +17,11 @@ class CadetBankApp extends StatelessWidget {
     // snippet:cadetinwrap
     // snippet:cadetinwrapf
 
-    return LoggedInUserDataInherited(
-      userDetails: ValueNotifier(null),
-      child: RegisterDataInherited(
-        registerData: RegisterData.initial(),
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          onGenerateRoute: (settings) => onGenerateRoute(settings, stateManagement: stateManagement),
-          initialRoute: "/login",
-          theme: CustomTheme.maya(),
-        ),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: (settings) => onGenerateRoute(settings, stateManagement: stateManagement),
+      initialRoute: "/login",
+      theme: CustomTheme.maya(),
     );
   }
 }

@@ -15,3 +15,5 @@ class LoggedInUserDataInherited extends InheritedWidget {
   @override
   bool updateShouldNotify(LoggedInUserDataInherited oldWidget) => true;
 }
+
+// snippet:cadetvaluenotifier

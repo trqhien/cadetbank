@@ -26,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    final loggedInUser = LoggedInUserDataInherited.of(context)!.userDetails;
+    // snippet:cadetloggedin
 
     return LoadingOverlay(
       isLoading: _isLoading,
@@ -109,7 +109,8 @@ class _LoginPageState extends State<LoginPage> {
                           Storage.setString(StorageKey.refreshRoken, res.refreshToken);
 
                           // update current user
-                          loggedInUser.value = res.user;
+                          // snippet:cadetupdateuser
+                          // loggedInUser.value = res.user;
 
                           // Push to home screen
                           Navigator.of(context).pushReplacementNamed("/home");

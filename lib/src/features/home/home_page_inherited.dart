@@ -14,16 +14,11 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final userDetails = LoggedInUserDataInherited.of(context)!.userDetails;
+    // snippet:cadetloggedin
 
     return Scaffold(
       appBar: CadetBankAppBar.custom(
-        leading: ValueListenableBuilder(
-          valueListenable: userDetails,
-          builder: (context, user, _) => user?.username != null
-            ? UsernameAppBarLeading(username: user!.username!)
-            : const UserAvatarAppBarLeading()
-        ),
+        leading: const UserAvatarAppBarLeading() // snippet:cadetvaluenotifierhome
       ),
       body: SafeArea(
         child: CadetTabBar(
