@@ -12,7 +12,7 @@ class RegisterPhonePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => RegisterPhoneProvider(
-        currentPhone: context.read<AppState>().registerData?.phoneNumber
+        currentPhone: context.read<RegisterState>().registerData?.phoneNumber
       )..validatePhone(),
       builder: (context, _) {
         return Scaffold(
@@ -67,7 +67,7 @@ class RegisterPhonePage extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: TextFormField(
-                          initialValue: context.read<AppState>().registerData?.phoneNumber,
+                          initialValue: context.read<RegisterState>().registerData?.phoneNumber,
                           keyboardType: TextInputType.number,
                           autocorrect: false,
                           style: Theme.of(context).textTheme.titleSmall!
@@ -89,17 +89,14 @@ class RegisterPhonePage extends StatelessWidget {
                   const SizedBox(height: 32),
                   const LogInFlowPromptText(),
                   const Spacer(),
-                  Selector2<RegisterPhoneProvider, AppState, bool>(
-                    selector: (context, registerPhoneProvider, appState) => registerPhoneProvider.isRegisterValid 
-                      || appState.debug,
+                  Selector<RegisterPhoneProvider, bool>(
+                    selector: (context, registerPhoneProvider) => registerPhoneProvider.isRegisterValid,
                     builder: (context, isRegisterValid, _) {
                       return TextButton(
                         onPressed: isRegisterValid
                           ? () {
-                              final appState = context.read<AppState>();
-                              if (!appState.debug) {
-                                appState.updateRegisteredPhone(context.read<RegisterPhoneProvider>().currentPhone);
-                              }
+                              final registerState = context.read<RegisterState>();
+                              registerState.updateRegisteredPhone(context.read<RegisterPhoneProvider>().currentPhone);
                               Navigator.of(context).pushNamed("/register/password");
                             }
                           : null,

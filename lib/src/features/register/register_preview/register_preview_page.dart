@@ -15,7 +15,7 @@ class RegisterPreviewPage extends StatelessWidget {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Selector<AppState, RegisterData?>(
+          child: Selector<RegisterState, RegisterData?>(
             selector: (context, appState) => appState.registerData,
             builder: (context, registerData, _) {
               return InfoTable(

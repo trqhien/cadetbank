@@ -13,8 +13,8 @@ class RegisterPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => RegisterPasswordProvider(
-        currentPassword: context.read<AppState>().registerData?.password,
-        currentConfirmedPassword: context.read<AppState>().registerData?.confirmPassword
+        currentPassword: context.read<RegisterState>().registerData?.password,
+        currentConfirmedPassword: context.read<RegisterState>().registerData?.confirmPassword
       )..validatePasswords(),
       builder: (context, _) {
         return LoadingOverlay(
@@ -50,7 +50,7 @@ class RegisterPasswordPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 24),
                     TextFormField(
-                      initialValue: context.read<AppState>().registerData?.password,
+                      initialValue: context.read<RegisterState>().registerData?.password,
                       keyboardType: TextInputType.text,
                       autocorrect: false,
                       style: Theme.of(context).textTheme.titleSmall!
@@ -65,7 +65,7 @@ class RegisterPasswordPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 8),
                     TextFormField(
-                      initialValue: context.read<AppState>().registerData?.confirmPassword,
+                      initialValue: context.read<RegisterState>().registerData?.confirmPassword,
                       keyboardType: TextInputType.text,
                       autocorrect: false,
                       style: Theme.of(context).textTheme.titleSmall!
@@ -83,27 +83,26 @@ class RegisterPasswordPage extends StatelessWidget {
                     const Spacer(),
                     Text(context.watch<RegisterPasswordProvider>().apiErrorText ?? ""),
                     const SizedBox(height: 20),
-                    Selector2<RegisterPasswordProvider, AppState, bool>(
-                      selector: (context, registerPasswordProvider, appState) => registerPasswordProvider.isRegisterValid 
-                        || appState.debug,
+                    Selector<RegisterPasswordProvider, bool>(
+                      selector: (context, registerPasswordProvider) => registerPasswordProvider.isRegisterValid,
                       builder: (context, isRegisterValid, _ ) {
                         return TextButton(
                           onPressed: isRegisterValid
                             ? () async {
                                 // Call register API
-                                final appState = context.read<AppState>();
+                                final registerState = context.read<RegisterState>();
 
                                 final res = await context
                                   .read<RegisterPasswordProvider>()
                                   .register(
-                                    email: appState.registerData?.email ?? "",
-                                    accountType: appState.registerData?.accountType ?? "",
-                                    phone: appState.registerData?.phoneNumber ?? ""
+                                    email: registerState.registerData?.email ?? "",
+                                    accountType: registerState.registerData?.accountType ?? "",
+                                    phone: registerState.registerData?.phoneNumber ?? ""
                                   );
 
                                 if (res != null)  {
                                   // Reset registered data back to null
-                                  appState.resetRegisterData();
+                                  registerState.resetRegisterData();
 
                                   // update current user
                                   context.read<AppState>().updateCurrentUser(res.user);

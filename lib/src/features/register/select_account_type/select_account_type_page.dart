@@ -27,7 +27,7 @@ class SelectAccountTypePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => SelectAccountTypeProvider(
-        currentAccountType: context.read<AppState>().registerData?.accountType
+        currentAccountType: context.read<RegisterState>().registerData?.accountType
       ),
       builder: (context, _) {
         return Scaffold(
@@ -99,17 +99,14 @@ class SelectAccountTypePage extends StatelessWidget {
                     ),
                   )),
                   const Spacer(),
-                  Selector2<SelectAccountTypeProvider, AppState, bool>(
-                    selector: (context, selectAccountTypeProvider, appState) => appState.debug
-                      || selectAccountTypeProvider.currentAccountType != null,
+                  Selector<SelectAccountTypeProvider, bool>(
+                    selector: (context, selectAccountTypeProvider) => selectAccountTypeProvider.currentAccountType != null,
                     builder: (context, isFlowValid, _) {
                       return TextButton(
                         onPressed: isFlowValid
                           ? () {
-                              final appState = context.read<AppState>();
-                              if (!appState.debug) {
-                                appState.updateRegisteredAccountType(context.read<SelectAccountTypeProvider>().currentAccountType!);
-                              }
+                              final registerState = context.read<RegisterState>();
+                              registerState.updateRegisteredAccountType(context.read<SelectAccountTypeProvider>().currentAccountType!);
                               Navigator.of(context).pushNamed("/register/phone");
                             }
                           : null,

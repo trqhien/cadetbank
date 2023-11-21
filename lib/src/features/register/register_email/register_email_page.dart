@@ -12,7 +12,7 @@ class RegisterEmailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => RegisterEmailProvider(
-        currentEmail: context.read<AppState>().registerData?.email
+        currentEmail: context.read<RegisterState>().registerData?.email
       )..validateEmail(),
       builder: (context, _) {
         return Scaffold(
@@ -30,7 +30,7 @@ class RegisterEmailPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 24),
                   TextFormField(
-                    initialValue: context.read<AppState>().registerData?.email,
+                    initialValue: context.read<RegisterState>().registerData?.email,
                     keyboardType: TextInputType.emailAddress,
                     autocorrect: false,
                     style: Theme.of(context).textTheme.titleSmall!
@@ -46,17 +46,14 @@ class RegisterEmailPage extends StatelessWidget {
                   const SizedBox(height: 32),
                   const LogInFlowPromptText(),
                   const Spacer(),
-                  Selector2<RegisterEmailProvider, AppState, bool>(
-                    selector: (context, registerEmailProvider, appState) => registerEmailProvider.isRegisterValid 
-                      || appState.debug,
+                  Selector<RegisterEmailProvider, bool>(
+                    selector: (context, registerEmailProvider) => registerEmailProvider.isRegisterValid,
                     builder: (context, isRegisterValid, _) {
                       return TextButton(
                         onPressed: isRegisterValid
                           ? () {
-                            final appState = context.read<AppState>();
-                            if (!appState.debug) {
-                              appState.updateRegisteredEmail(context.read<RegisterEmailProvider>().currentEmail);
-                            }
+                            final registerState = context.read<RegisterState>();
+                            registerState.updateRegisteredEmail(context.read<RegisterEmailProvider>().currentEmail);
                             Navigator.of(context).pushNamed("/register/account-type");
                           }
                           : null,
