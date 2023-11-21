@@ -105,7 +105,7 @@ class RegisterPasswordPage extends StatelessWidget {
                                   registerState.resetRegisterData();
 
                                   // update current user
-                                  context.read<AppState>().updateCurrentUser(res.user);
+                                  // context.read<AppState>().updateCurrentUser(res.user);
 
                                   // Push to next sreen
                                   Navigator.of(context).pushNamed("/register/successful");

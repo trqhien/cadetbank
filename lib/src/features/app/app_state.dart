@@ -2,32 +2,7 @@ import 'package:cadetbank/src/app/shared_data/register_data.dart';
 import 'package:cadetbank/src/network/users/models/user_details.dart';
 import 'package:flutter/material.dart';
 
-class AppState extends ChangeNotifier {
-  AppState();
-
-  // UserDetails? _user;
-  // UserDetails? get user => _user;
-  UserDetails? user;
-  // bool get isUsernameAvailable => user?.username != null;
-  
-  // RegisterData? _registerData;
-  // RegisterData? get registerData => _registerData;
-
-  // void toggleDebugMode() {
-    // _debug = !debug;
-    // notifyListeners();
-  // }
-
-  void updateCurrentUser(UserDetails newUser) {
-    user = newUser;
-    notifyListeners();
-  }
-
-  void logoutUser() {
-    // _user = null;
-    // notifyListeners();
-  }
-}
+// snippet:cadetappstate
 
 class RegisterState extends ChangeNotifier {
   RegisterState({this.registerData});

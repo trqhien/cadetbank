@@ -33,7 +33,7 @@ class UserDetails {
     String? accountType,
     String? phone,
   }) => UserDetails(
-    username: username,
+    username: username ?? this.username,
     email: email ?? this.email, 
     accountType: accountType ?? this.accountType, 
     phone: phone ?? this.phone
