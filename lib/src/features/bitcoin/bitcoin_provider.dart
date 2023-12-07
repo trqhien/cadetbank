@@ -26,6 +26,7 @@ class BitcoinProvider extends ChangeNotifier {
       BitcoinResponse(
         onSuccess: (bitcoinData) {
           _bitcoinUSDPrice = bitcoinData.bitcoinUSDPrice;
+          _error = null;
         },
         onError: (error) {
           _error = error.toString();
