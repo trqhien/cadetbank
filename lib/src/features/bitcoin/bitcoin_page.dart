@@ -21,14 +21,17 @@ class BitcoinPage extends StatelessWidget {
                   children: [
                     const Spacer(),
                     Image.asset(
-                      "assets/images/Crypto.png",
+                      context.watch<BitcoinProvider>().error != null
+                          ? "assets/images/Failed.png"
+                          : "assets/images/Crypto.png",
                       width: constraints.maxWidth * 0.6,
                       height: constraints.maxWidth * 0.6,
                       fit: BoxFit.cover,
                     ),
                     const SizedBox(height: 8),
                     Text(
-                        "Bitcoin Price: \$${context.watch<BitcoinProvider>().bitcoinUSDPrice}",
+                        context.watch<BitcoinProvider>().error ??
+                            "Bitcoin Price: \$${context.watch<BitcoinProvider>().bitcoinUSDPrice}",
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleSmall!),
                     const Spacer(),

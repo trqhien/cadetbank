@@ -1,6 +1,7 @@
-import 'package:cadetbank/src/network/auth/datasource/bitcoin_datasource.dart';
-import 'package:cadetbank/src/network/auth/repositories/bitcoin/bitcoin_repository.dart';
-import 'package:cadetbank/src/network/auth/repositories/bitcoin/bitcoin_response.dart';
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:cadetbank/src/network/auth/responses/bitcoin_model.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
@@ -15,23 +16,23 @@ class BitcoinProvider extends ChangeNotifier {
 
   Future<void> getLatestBitcoinPrice() async {
     // This can be refactored to implement a proper dependency injection
-    final dio = Dio();
-    final datasource = BitcoinRestClient(dio);
-    final repository = BitcoinRepository(datasource);
     _error = null;
     _isLoading = true;
     notifyListeners();
 
-    await repository.getBitcoinData(
-      BitcoinResponse(
-        onSuccess: (bitcoinData) {
-          _bitcoinUSDPrice = bitcoinData.bitcoinUSDPrice;
-        },
-        onError: (error) {
-          _error = error.toString();
-        },
-      ),
-    );
+    try {
+      final dio = Dio();
+      final response =
+          await dio.get('https://api.coindesk.com/v1/bpi/currentprice.json');
+      final data = json.decode(response.data);
+      final bitcoinData = BitcoinModel.fromJson(data);
+      _bitcoinUSDPrice = bitcoinData.bitcoinUSDPrice;
+      _error = null;
+    } on Exception catch (exception, stackTrace) {
+      _error = AsyncError(exception, stackTrace).toString();
+    } on Error catch (localError, _) {
+      _error = localError.toString();
+    }
 
     _isLoading = false;
     notifyListeners();
