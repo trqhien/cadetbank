@@ -15,19 +15,19 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.green,
         fontFamily: 'Jeko',
       ),
-      home: const LoginScreen(),
+      home: const OnboardingScreen(),
     );
   }
 }
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class OnboardingScreen extends StatefulWidget {
+  const OnboardingScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<OnboardingScreen> createState() => _OnboardingScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _OnboardingScreenState extends State<OnboardingScreen> {
   bool shouldUseUsername = true;
 
   @override
