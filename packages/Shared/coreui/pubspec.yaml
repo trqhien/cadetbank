@@ -1,0 +1,76 @@
+name: coreui
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: '>=2.19.2 <3.0.0'
+  flutter: ^3.7.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  auto_size_text: 3.0.0
+  flutter_svg: 1.1.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+# For information on the generic Dart part of this file, see the
+# following page: https://dart.dev/tools/pub/pubspec
+
+# The following section is specific to Flutter packages.
+flutter:
+  uses-material-design: true
+  assets:
+    - lib//assets/icons/
+    - lib/assets/images/
+    
+  fonts:
+    - family: Jeko
+      fonts:
+        - asset: lib/assets/fonts/Jeko-Extra-Light.otf
+          weight: 200
+        - asset: lib/assets/fonts/Jeko-Light.otf
+          weight: 300
+        - asset: lib/assets/fonts/Jeko-Regular.otf
+          weight: 400
+        - asset: lib/assets/fonts/Jeko-Medium.otf
+          weight: 500
+        - asset: lib/assets/fonts/Jeko-Semi-Bold.otf
+          weight: 600
+        - asset: lib/assets/fonts/Jeko-Bold.otf
+          weight: 700
+        - asset: lib/assets/fonts/Jeko-Extra-Bold.otf
+          weight: 800
+        - asset: lib/assets/fonts/Jeko-Black.otf
+          weight: 900
+    - family: CerebriSansPro
+      fonts:
+        - asset: lib/assets/fonts/CerebriSansPro-Thin.otf
+          weight: 100
+        - asset: lib/assets/fonts/CerebriSansPro-Extra-Light.otf
+          weight: 200
+        - asset: lib/assets/fonts/CerebriSansPro-Light.otf
+          weight: 300
+        - asset: lib/assets/fonts/CerebriSansPro-Regular.otf
+          weight: 400
+        - asset: lib/assets/fonts/CerebriSansPro-Medium.otf
+          weight: 500
+        - asset: lib/assets/fonts/CerebriSansPro-Semi-Bold.otf
+          weight: 600
+        - asset: lib/assets/fonts/CerebriSansPro-Bold.otf
+          weight: 700
+        - asset: lib/assets/fonts/CerebriSansPro-Extra-Bold.otf
+          weight: 800
+    - family: CerebriSansPro-Heavy
+      fonts:
+        - asset: lib/assets/fonts/CerebriSansPro-Heavy.otf
+    - family: CerebriSansPro-Book
+      fonts:
+        - asset: lib/assets/fonts/CerebriSansPro-Book.otf
+    - family: NotoColorEmoji
+      fonts:
+        - asset: lib/assets/fonts/NotoColorEmoji-Regular.ttf

@@ -1,0 +1,31 @@
+name: di_containers
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=2.18.6 <3.0.0"
+  flutter: ^3.7.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get_it: 7.6.0
+  di:
+    path: ../../Shared/di
+  auth_use_cases:
+    path: ../../UseCases/auth_use_cases
+  users_use_cases:
+    path: ../../UseCases/users_use_cases
+  local_storage_use_cases:
+    path: ../../UseCases/local_storage_use_cases
+  shared_states:
+    path: ../../Shared/shared_states
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+
+flutter:

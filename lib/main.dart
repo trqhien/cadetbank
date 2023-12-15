@@ -1,38 +1,12 @@
-import 'package:cadetbank/src/core/storage/storage.dart';
-import 'package:cadetbank/src/core/widgets/inherited_widgets/demo_topic_inherited.dart';
-import 'package:cadetbank/src/features/app/cadet_bank_app.dart' as use_provider;
-import 'package:cadetbank/src/features/app/cadet_bank_app_inherited.dart' as use_inherited;
+import 'package:di_containers/di_containers.dart';
 import 'package:flutter/material.dart';
+import 'package:saving_app/saving_app.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  Storage.remove(StorageKey.token);
-  Storage.remove(StorageKey.refreshRoken);
+  await configureDependencies();
 
   runApp(
-    const DemoApp(
-      stateManagement: StateManagement.provider
-    )
+    const App()
   );
-}
-
-class DemoApp extends StatelessWidget {
-  final StateManagement stateManagement;
-
-  const DemoApp({
-    super.key,
-    required this.stateManagement
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DemoTopicInherited(
-      stateManagement: stateManagement,
-      child: stateManagement == StateManagement.inherited
-        ? const use_inherited.CadetBankApp()
-        : stateManagement == StateManagement.provider 
-          ? const use_provider.CadetBankApp()
-          : const use_provider.CadetBankApp()
-    );
-  }
 }
