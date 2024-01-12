@@ -1,8 +1,4 @@
 repos:
-- repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v4.1.0
-  hooks:
-    - id: trailing-whitespace
 - repo: local
   hooks:
     - id: flutter-fix
@@ -11,7 +7,7 @@ repos:
       # language: dart
       entry: bash
       language: system
-      args: ['-c', '.fvm/flutter_sdk/bin/dart fix --dry-run']
+      args: ['-c', '.fvm/flutter_sdk/bin/dart fix --apply']
       files: lib/*
 # - repo: https://github.com/Cretezy/flutter-format-pre-commit
 #   rev: master
