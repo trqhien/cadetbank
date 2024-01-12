@@ -3,8 +3,6 @@ repos:
   hooks:
     - id: flutter-fix
       name: fix common linting rules
-      # entry: .fvm/flutter_sdk/bin/dart fix --apply
-      # language: dart
       entry: bash
       language: system
       args: ['-c', '.fvm/flutter_sdk/bin/dart fix --apply']
