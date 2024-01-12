@@ -1,7 +1,7 @@
 pre-commit:
   commands:
-    format:
+    fix-lint:
       root: "lib/"
       glob: "*.dart"
       exclude: '(^|/)(application|routes)\.rb$' # regexp filter
-      run: fvm dart format .
+      run: fvm dart fix --apply
