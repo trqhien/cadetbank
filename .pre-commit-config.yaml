@@ -9,15 +9,12 @@ repos:
       language: system
       args: ['-c', '.fvm/flutter_sdk/bin/dart fix --apply']
       files: lib/*
-# - repo: https://github.com/Cretezy/flutter-format-pre-commit
-#   rev: master
-#   hooks:
-#   - id: flutter-format
-#     files: lib/*
-#     exclude: lib/src/utils.dart
-#     args: [--line-length=150]
-# - repo: https://github.com/dluksza/flutter-analyze-pre-commit
-#   rev: "master"
-#   hooks:
-#     - id: flutter-analyze
-#       args: [lib/*]
+- repo: local
+  hooks:
+    - id: flutter-analyze
+      name: run flutter analyze
+      entry: bash
+      language: system
+      args: ['-c', '.fvm/flutter_sdk/bin/flutter analyze']
+      files: lib/*
+
