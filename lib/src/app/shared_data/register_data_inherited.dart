@@ -12,7 +12,7 @@ class RegisterData {
     required this.accountType, 
     required this.phoneNumber, 
     required this.password,
-    required this.confirmPassword
+    required this.confirmPassword,
   });
 
   factory RegisterData.initial() => RegisterData._(
