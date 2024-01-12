@@ -1,0 +1,7 @@
+pre-commit:
+  commands:
+    format:
+      root: "lib/"
+      glob: "*.dart"
+      exclude: '(^|/)(application|routes)\.rb$' # regexp filter
+      run: fvm flutter format 
