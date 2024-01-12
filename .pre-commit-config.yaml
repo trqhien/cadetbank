@@ -11,7 +11,7 @@ repos:
       # language: dart
       entry: bash
       language: system
-      args: ['-c', 'fvm dart fix --dry-run']
+      args: ['-c', '.fvm/flutter_sdk/bin/dart fix --dry-run']
       files: lib/*
 # - repo: https://github.com/Cretezy/flutter-format-pre-commit
 #   rev: master
