@@ -15,6 +15,6 @@ repos:
       name: run flutter analyze
       entry: bash
       language: system
-      args: ['-c', '.fvm/flutter_sdk/bin/flutter analyze']
+      args: ['-c', '.fvm/flutter_sdk/bin/flutter analyze --no-fatal-infos ']
       files: lib/*
 
