@@ -3,6 +3,13 @@ repos:
   rev: v4.1.0
   hooks:
     - id: trailing-whitespace
+- repo: local
+  hooks:
+    - id: flutter-fix
+      name: fix common linting rules
+      entry: fvm dart fix --apply
+      language: system
+      files: lib/*
 # - repo: https://github.com/Cretezy/flutter-format-pre-commit
 #   rev: master
 #   hooks:
