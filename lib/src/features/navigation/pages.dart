@@ -18,16 +18,16 @@ class RedPage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () {
-                // Navigator.of(context).pushNamed("/purple")
+                // TODO: 1. Navigator.of(context).pushNamed("/purple")
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              // onPressed: null,
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -51,16 +51,15 @@ class PurplePage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () { 
-                // Navigator.of(context).pushNamed("/pink");
+                // TODO: 2. Navigator.of(context).pushNamed("/pink");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -84,14 +83,14 @@ class PinkPage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () { 
-                // Navigator.of(context).pushNamed("/orange");
+                // TODO: 3. Navigator.of(context).pushNamed("/orange");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pushAndRemoveUntil 🔴"),
               onPressed: () { 
-                // Navigator.of(context).pushNamedAndRemoveUntil(
+                // TODO: 7. Navigator.of(context).pushNamedAndRemoveUntil(
                 //   "/blue",
                 //   (route) => route.settings.name == "/red"
                 // );
@@ -100,10 +99,10 @@ class PinkPage extends StatelessWidget {
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              // onPressed: null,
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -127,23 +126,23 @@ class OrangePage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () { 
-                // Navigator.of(context).pushNamed("/yellow");
+                // TODO: 4. Navigator.of(context).pushNamed("/yellow");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pushReplacement"),
               onPressed: () { 
-                // Navigator.of(context).pushReplacementNamed("/yellow");
+                // TODO: 8. Navigator.of(context).pushReplacementNamed("/yellow");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              // onPressed: null,
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -167,16 +166,16 @@ class YellowPage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () { 
-                // Navigator.of(context).pushNamed("/green");
+                // TODO: 5. Navigator.of(context).pushNamed("/green");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              // onPressed: null,
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
@@ -200,24 +199,24 @@ class GreenPage extends StatelessWidget {
             TextButton(
               child: const Text("push"),
               onPressed: () { 
-                // Navigator.of(context).pushNamed("/blue");
+                // TODO: 6. Navigator.of(context).pushNamed("/blue");
               }
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("popUntil 🟠"),
               onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
+              // TODO: 9. onPressed: Navigator.of(context).canPop()
               //   ? () => Navigator.of(context).popUntil((route) => route.settings.name == "/orange")
               //   : null
             ),
             const SizedBox(height: 24),
             TextButton(
               child: const Text("pop"),
-              onPressed: null,
-              // onPressed: Navigator.of(context).canPop()
-              //   ? () => Navigator.of(context).pop()
-              //   : null
+              // onPressed: null,
+              onPressed: Navigator.of(context).canPop()
+                ? () => Navigator.of(context).pop()
+                : null
             ),
             const Spacer(),
           ],
