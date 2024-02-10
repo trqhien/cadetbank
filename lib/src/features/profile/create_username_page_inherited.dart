@@ -71,7 +71,9 @@ class _CreateUsernamePageState extends State<CreateUsernamePage> {
 
   @override
   Widget build(BuildContext context) {
-    // snippet:cadetloggedin
+    // TODO: 14. Retrieve `userDetails` instance. 
+    // snippet:loggedInUser
+    final loggedInUserDetails = LoggedInUserDataInherited.of(context)!.userDetails;
 
     return LoadingOverlay(
       isLoading: _isLoading,
@@ -211,8 +213,9 @@ class _CreateUsernamePageState extends State<CreateUsernamePage> {
                             final res = await updateUsername(_usernameController.text);
 
                             if (res != null) {
-                              // update username
+                              // TODO: 15. Update username
                               // snippet:cadetupdateusername
+                              loggedInUserDetails.value = loggedInUserDetails.value!.copyWith(username: res.updatedUser.username);
 
                               // pop to previous screen
                               Navigator.of(context).pop();

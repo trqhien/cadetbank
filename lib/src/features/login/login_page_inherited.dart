@@ -26,7 +26,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // snippet:cadetloggedin
+    // TODO: 3. Get `userDetails` instance. 
+    // snippet:loggedInUser
+    final loggedInUserDetails = LoggedInUserDataInherited.of(context)!.userDetails;
 
     return LoadingOverlay(
       isLoading: _isLoading,
@@ -97,22 +99,18 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () async {
-                        // Dismiss keyboard
                         FocusScope.of(context).unfocus();
 
-                        // Call log in API
                         final res = await login(email: _emailController.text, password: _passwordController.text);
 
                         if (res != null) {
-                          // Update access token
                           Storage.setString(StorageKey.token, res.token);
                           Storage.setString(StorageKey.refreshRoken, res.refreshToken);
 
-                          // update current user
+                          // TODO: 4. update logged in user details
                           // snippet:cadetupdateuser
-                          // loggedInUser.value = res.user;
+                          loggedInUserDetails.value = res.user;
 
-                          // Push to home screen
                           Navigator.of(context).pushReplacementNamed("/home");
                         }
                       },

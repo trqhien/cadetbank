@@ -1,7 +1,7 @@
 import 'package:cadetbank/src/network/users/models/user_details.dart';
 import 'package:flutter/material.dart';
 
-// snippet:cadetin
+// TODO: 1. Create LoggedInUserDataInherited
 class LoggedInUserDataInherited extends InheritedWidget {
   /// Use `ValueNotifier(null)` for a default value
   final ValueNotifier<UserDetails?> userDetails;
@@ -15,5 +15,3 @@ class LoggedInUserDataInherited extends InheritedWidget {
   @override
   bool updateShouldNotify(LoggedInUserDataInherited oldWidget) => true;
 }
-
-// snippet:cadetvaluenotifier
