@@ -14,16 +14,10 @@ class CadetBankApp extends StatelessWidget {
 
     // TODO: 2. Wrap root widget inside `MultiProvider`
     // snippet:cadetmultiprovider
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => AppState()),
-        ChangeNotifierProvider(create: (_) => RegisterState())
-      ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        onGenerateRoute: (settings) => onGenerateRoute(settings, stateManagement: stateManagement),
-        theme: CustomTheme.maya(),
-      ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      onGenerateRoute: (settings) => onGenerateRoute(settings, stateManagement: stateManagement),
+      theme: CustomTheme.maya(),
     );
   }
 }

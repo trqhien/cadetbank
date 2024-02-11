@@ -5,22 +5,6 @@ import 'package:flutter/material.dart';
 // TODO: 1. Create `AppState`
 // snippet:cadetappstate
 
-class AppState extends ChangeNotifier {
-  AppState();
-
-  UserDetails? user;
-
-  void updateCurrentUser(UserDetails newUser) {
-    user = newUser;
-    notifyListeners();
-  }
-
-  void logoutUser() {
-    user = null;
-    notifyListeners();
-  }
-}
-
 class RegisterState extends ChangeNotifier {
   RegisterState({this.registerData});
 

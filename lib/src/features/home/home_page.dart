@@ -21,20 +21,11 @@ class HomePage extends StatelessWidget {
       appBar: CadetBankAppBar.custom(
         // TODO: 4. Update appbar using read
         // snippet: providerappbarleadingread
-        // leading: context.read<AppState>().user?.username != null
-        //   ? UsernameAppBarLeading(username: context.read<AppState>().user!.username!)
-        //   : const UserAvatarAppBarLeading(),
 
         // TODO: X. Update appbar using `Selector<AppState, bool>`
         // snippet:providerappbarleadingselector
-        leading: Selector<AppState, String?>(
-          selector: (context, appState) => appState.user?.username,
-          builder: (context, username, _) => username != null
-            ? UsernameAppBarLeading(username: username)
-            : const UserAvatarAppBarLeading(),
-        )
-        // snippet: providerappbarleadingselector
-        // leading: const UserAvatarAppBarLeading()
+
+        leading: const UserAvatarAppBarLeading()
       ),
       body: SafeArea(
         child: CadetTabBar(
@@ -47,8 +38,6 @@ class HomePage extends StatelessWidget {
             },
             child: LayoutBuilder(
               builder: (context, constraints) {
-                print("🌮 Layout is rebuilt");
-
                 return Center(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),

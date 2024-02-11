@@ -40,33 +40,37 @@ class CreateUsernameProvider extends ChangeNotifier {
 
   Future<UpdateUserDetailsResponse?> updateUsername() async {
     _apiError = null;
-    _isLoading = true;
 
-    notifyListeners();
+    // TODO: 13. Update loading 
+    // _isLoading = true;
+    // notifyListeners();
 
     UpdateUserDetailsResponse? updateUserRes;
 
-    try {
-      final res = await dio.post<Map<String, dynamic>>(
-        "/users/update",
-        data: {
-          "username": _currentUsername,
-        }
-      );
+    await Future.delayed(const Duration(seconds: 2));
 
-      final apiRes = ApiResponse.fromJson(res.data!, UpdateUserDetailsResponse.fromJson);
+    // try {
+    //   final res = await dio.post<Map<String, dynamic>>(
+    //     "/users/update",
+    //     data: {
+    //       "username": _currentUsername,
+    //     }
+    //   );
 
-      if (apiRes.isSuccessful) {
-        updateUserRes = apiRes.response!;
-      } else {
-        _apiError = apiRes.error!.reason;
-      }
-    } catch (err) {
-      _apiError = err.toString();
-    }
+    //   final apiRes = ApiResponse.fromJson(res.data!, UpdateUserDetailsResponse.fromJson);
 
-    _isLoading = false;
-    notifyListeners();
+    //   if (apiRes.isSuccessful) {
+    //     updateUserRes = apiRes.response!;
+    //   } else {
+    //     _apiError = apiRes.error!.reason;
+    //   }
+    // } catch (err) {
+    //   _apiError = err.toString();
+    // }
+
+    // TODO: 15. Update loading 
+    // _isLoading = false;
+    // notifyListeners();
 
     return updateUserRes;
   }

@@ -107,7 +107,6 @@ class LoginPage extends StatelessWidget {
                               if (res != null) {
                                 // TODO: 3. update current user
                                 // snippet:providerupdateuser
-                                context.read<AppState>().updateCurrentUser(res.user);
                                 
                                 // Push to home screen
                                 Navigator.of(context).pushReplacementNamed("/home");
