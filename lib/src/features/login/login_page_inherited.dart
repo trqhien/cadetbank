@@ -1,5 +1,7 @@
 // ignore_for_file: avoid_print, unused_import
 
+import 'dart:io';
+
 import 'package:cadetbank/src/core/storage/storage.dart';
 import 'package:cadetbank/src/core/styling/colors.dart';
 import 'package:cadetbank/src/core/widgets/cadet_bank_app_bar.dart';
@@ -10,6 +12,7 @@ import 'package:cadetbank/src/network/auth/responses/login_response.dart';
 import 'package:cadetbank/src/network/dio_client.dart';
 import 'package:cadetbank/src/network/error_response.dart';
 import 'package:dio/dio.dart';
+import 'package:dio/io.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
@@ -28,14 +31,27 @@ class _LoginPageState extends State<LoginPage> {
   String? _response;
   bool _isLoading = false;
 
-  /* 👉 Setup dio instance */
-  // final dio = Dio(
-  //     BaseOptions(
-  //       baseUrl: "http://localhost:80/api",
-  //       connectTimeout: const Duration(seconds: 10),
-  //       receiveTimeout: const Duration(seconds: 10),
-  //   )
-  // );
+  // TODO: 1. Setup dio instance http://localhost:80/api
+  final dio = Dio(BaseOptions(baseUrl: "http://localhost:80/api"));
+
+  @override
+  void initState() {
+
+    const proxy = "localhost:9090";
+
+    (dio.httpClientAdapter as IOHttpClientAdapter).onHttpClientCreate = (client) { 
+    // Hook into the findProxy callback to set the client's proxy.
+      client.findProxy = (url) {
+        return 'PROXY $proxy';
+      };
+    
+    // This is a workaround to allow Proxyman to receive
+    // SSL payloads when your app is running on Android.
+    // client.badCertificateCallback = (X509Certificate cert, String host, int port) => Platform.isAndroid;
+    };
+
+    super.initState();
+  }
 
 
   @override
@@ -109,43 +125,39 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 16),
                     TextButton(
                       onPressed: () async {
-                        // Dismiss keyboard
                         FocusScope.of(context).unfocus();
 
-                        /* 👉 Call API here */
                         print("---- start calling API ----");
 
-                        /* 👉 ---- /test/health ---- */
+                        // TODO: 2. get /test/health
                         // final response = await dio.get("/test/health");
                         // print("🌮 $response");
 
-                        /* 👉 ---- /test/greet ---- */
+                        // TODO: 3. post /test/greet. Body format: {"message": YOUR_MESSAGE}
                         // final response =  await dio.post(
                         //   "/test/greet",
                         //   data: {"message": "Welcome to 2023 Cadetship Program"}
                         // );
                         // print("🌮 $response");
 
-                        /* 👉 ---- /test/404 ---- */
+                        // TODO: 4. /test/404
                         // try {
-                        //   // final response = await dio.get("/test/404");
+                        //   final response = await dio.get("/test/404");
+                        //   print("🌮 $response");
+                        // } catch (err) {
+                        //   print("❌ $err");
+                        // }
+
+                        // TODO: 5 /test/500
+                        // try {
                         //   final response = await dio.get("/test/500");
                         //   print("🌮 $response");
                         // } catch (err) {
                         //   print("❌ $err");
                         // }
 
-                        /* 👉 ---- /test/500 ---- */
-                        // try {
-                        //   // final response = await dio.get("/test/404");
-                        //   final response = await dio.get("/test/500");
-                        //   print("🌮 $response");
-                        // } catch (err) {
-                        //   print("❌ $err");
-                        // }
-
-                        /* 👉 ---- /auth/login ---- */
-                        // await login(email: _emailController.text, password: _passwordController.text);
+                        // TODO: 7 /auth/login
+                        await login(email: _emailController.text, password: _passwordController.text);
 
                         print("---- done calling API ----");
                       },
@@ -172,7 +184,7 @@ class _LoginPageState extends State<LoginPage> {
       _isLoading = true;
     });
 
-    /* 👉 ---- API request handling starts here ---- */
+    // TODO: 6. Walk through the log in API http://localhost/docs
 
     // try {
     //   final response = await dio.post<Map<String, dynamic>>(
@@ -193,8 +205,6 @@ class _LoginPageState extends State<LoginPage> {
     //   print("❌ $err");
     //   _response = err.toString();
     // }
-
-    /* 👉 ---- END ---- */
 
     _isLoading = false;
     setState(() {});
