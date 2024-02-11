@@ -28,7 +28,6 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     // TODO: 3. Get `userDetails` instance. 
     // snippet:loggedInUser
-    final loggedInUserDetails = LoggedInUserDataInherited.of(context)!.userDetails;
 
     return LoadingOverlay(
       isLoading: _isLoading,
@@ -109,7 +108,6 @@ class _LoginPageState extends State<LoginPage> {
 
                           // TODO: 4. update logged in user details
                           // snippet:cadetupdateuser
-                          loggedInUserDetails.value = res.user;
 
                           Navigator.of(context).pushReplacementNamed("/home");
                         }
