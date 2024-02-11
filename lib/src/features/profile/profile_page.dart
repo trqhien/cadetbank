@@ -5,6 +5,7 @@ import 'package:cadetbank/src/core/widgets/loading_overlay.dart';
 import 'package:cadetbank/src/features/app/app_state.dart';
 import 'package:cadetbank/src/features/profile/profile_provider.dart';
 import 'package:cadetbank/src/features/profile/widgets/create_username_prompt.dart';
+import 'package:cadetbank/src/network/users/models/user_details.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,61 +15,76 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // snippet:cadetprofileprovider
-    return LoadingOverlay(
-      isLoading: false, // snippet:cadetprofileisloading
-      child: Scaffold(
-        appBar: CadetBankAppBar.pushStyle(),
-        body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            // snippet:cadetprofileusername
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                // if (!isUsernameAvailable)
-                  const CreateUsernamePrompt(),
-                const SizedBox(height: 16),
-                // snippet:cadetinfotableprovider
-                const InfoTable(
-                  tableData: <String, String>{
-                    "Email": "🫣 FIX THIS",
-                    "Account Type": "🫣 FIX THIS",
-                    "Phone number": "🫣 FIX THIS",
-                    "Username": "🫣 FIX THIS"
+    return ChangeNotifierProvider(
+      create: (context) => ProfileProvider(),
+      builder: (context, _) {
+        return LoadingOverlay(
+          isLoading: context.watch<ProfileProvider>().isLoading,
+          child: Scaffold(
+            appBar: CadetBankAppBar.pushStyle(),
+            body: SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                // TODO: 10. Wrap the entire widet inside Selector
+                // snippet:selectorappstate
+
+                child: Selector<AppState, UserDetails?>(
+                  selector: (context, appState) => appState.user,
+                  builder: (context, user, _) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        // TODO: 5. Show CreateUsernamePrompt if username is not available
+                        if (user?.username == null)
+                          const CreateUsernamePrompt(),
+                        const SizedBox(height: 16),
+                        InfoTable(
+                          tableData: <String, String>{
+                            "Email": user?.email ?? "N/A", // TODO: 6. Show email, otherwise N/A
+                            "Account Type": user?.accountType ?? "N/A", // TODO: 7. Show account type, otherwise N/A
+                            "Phone number": user?.phone ?? "N/A", // TODO: 8. Show phone number, otherwise N/A
+                            
+                            if (user?.username != null)
+                              "Username": user!.username! // TODO: 9. Show username, otherwise hidden
+                          }
+                        ),
+                        const Spacer(),
+                        TextButton(
+                          style: Theme.of(context).textButtonTheme.style!
+                            .copyWith(
+                              backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
+                                if (states.contains(MaterialState.pressed)) return CustomColors.primaryBlack72Color;
+                                if (states.contains(MaterialState.hovered) || states.contains(MaterialState.focused)) return CustomColors.primaryBlack72Color;
+                                if (states.contains(MaterialState.disabled)) return CustomColors.grey10Color.withAlpha(75);
+                                return CustomColors.primaryBlackColor;
+                              })
+                            ),
+                          onPressed: () async {
+                            // Call log out API
+                            final res = await context
+                              .read<ProfileProvider>()
+                              .logout();
+
+                            if (res != null) {
+                              // TODO: 11. remove current user
+                              // snippet:logoutUser
+                              context.read<AppState>().logoutUser();
+                              
+                              // Push to home screen
+                              Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => route.settings.name == "/login");
+                            }
+                          },
+                          child: const Text("Log out"),
+                        ),
+                      ],
+                    );
                   }
                 ),
-                const Spacer(),
-                TextButton(
-                  style: Theme.of(context).textButtonTheme.style!
-                    .copyWith(
-                      backgroundColor: MaterialStateProperty.resolveWith<Color>((states) {
-                        if (states.contains(MaterialState.pressed)) return CustomColors.primaryBlack72Color;
-                        if (states.contains(MaterialState.hovered) || states.contains(MaterialState.focused)) return CustomColors.primaryBlack72Color;
-                        if (states.contains(MaterialState.disabled)) return CustomColors.grey10Color.withAlpha(75);
-                        return CustomColors.primaryBlackColor;
-                      })
-                    ),
-                  onPressed: () async {
-                    // Call log out API
-                    final res = await context
-                      .read<ProfileProvider>()
-                      .logout();
-
-                    if (res != null) {
-                      // remove current user
-                      // context.read<AppState>().logoutUser();
-                      
-                      // Push to home screen
-                      Navigator.of(context).pushNamedAndRemoveUntil("/login", (route) => route.settings.name == "/login");
-                    }
-                  },
-                  child: const Text("Log out"),
-                ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }

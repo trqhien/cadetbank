@@ -19,7 +19,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CadetBankAppBar.custom(
-        leading: const UserAvatarAppBarLeading() // snippet:cadetappbarleading
+        // TODO: 4. Update appbar using read
+        // snippet: providerappbarleadingread
+        // leading: context.read<AppState>().user?.username != null
+        //   ? UsernameAppBarLeading(username: context.read<AppState>().user!.username!)
+        //   : const UserAvatarAppBarLeading(),
+
+        // TODO: X. Update appbar using `Selector<AppState, bool>`
+        // snippet:providerappbarleadingselector
+        leading: Selector<AppState, String?>(
+          selector: (context, appState) => appState.user?.username,
+          builder: (context, username, _) => username != null
+            ? UsernameAppBarLeading(username: username)
+            : const UserAvatarAppBarLeading(),
+        )
+        // snippet: providerappbarleadingselector
+        // leading: const UserAvatarAppBarLeading()
       ),
       body: SafeArea(
         child: CadetTabBar(
@@ -40,38 +55,19 @@ class HomePage extends StatelessWidget {
                     child: Column(
                       children: [
                         const Spacer(),
-                        // Image.asset(
-                        //   "assets/images/Maintenance.png",
-                        //   width: constraints.maxWidth * 0.6,
-                        //   height: constraints.maxWidth * 0.6,
-                        //   fit: BoxFit.cover,
-                        // ),
-                        const SizedBox(height: 8),
-                        TextButton(
-                          onPressed: () {
-                            // final appState = context.read<AppState>();
-                            // final user = appState.user!;
-
-                            // 1. Update username
-                            // final username = user?.username ?? "N/A";
-                            // appState.updateCurrentUser(user.copyWith(username: "${username}⭐️"));
-                            
-                            // 2. Update email
-                            // final email = user.email ; 
-                            // appState.updateCurrentUser(user.copyWith(email: "${email}⭐️"));
-                          }, 
-                          child: const Text("Change username")
+                        Image.asset(
+                          "assets/images/Maintenance.png",
+                          width: constraints.maxWidth * 0.6,
+                          height: constraints.maxWidth * 0.6,
+                          fit: BoxFit.cover,
                         ),
-                        const SizedBox(height: 20),
-                        // Text("watch: ${context.watch<AppState>().user?.username}"),
-                        // Text("select: ${context.select<AppState, String>((value) => value.user!.username ?? "")}"),
-                        // Text("read: ${context.read<AppState>().user?.username}"),
-                        // Text(
-                        //   "This page is under construction. \nCome back later.", 
-                        //   textAlign: TextAlign.center, 
-                        //   style: Theme.of(context).textTheme.titleSmall!
-                        //     // .copyWith(fontWeight: FontWeight.w600)   
-                        // ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "This page is under construction. \nCome back later.", 
+                          textAlign: TextAlign.center, 
+                          style: Theme.of(context).textTheme.titleSmall!
+                            // .copyWith(fontWeight: FontWeight.w600)   
+                        ),
                         const Spacer(),
                       ],
                     ),

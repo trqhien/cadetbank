@@ -48,105 +48,111 @@ class _CreateUsernamePageState extends State<CreateUsernamePage> {
 
   @override
   Widget build(BuildContext context) {
-    // snippet:cadetcreateusername
-    return LoadingOverlay(
-      isLoading: false, // snippet:cadetcreateisloading
-      child: Scaffold(
-        appBar: CadetBankAppBar.pushStyle(),
-        body: SafeArea(
-          child: KeyboardDismissOnTap(
-            child: Stack(
-              alignment: AlignmentDirectional.bottomCenter,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: MediaQuery.of(context).viewInsets.bottom > 0
-                      ? 124
-                      : 0
-                  ),
-                  child: SizedBox(
-                    height: double.infinity,
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      physics: const ClampingScrollPhysics(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Create a @username",
-                              style: Theme.of(context).textTheme.displayLarge!
-                                .copyWith(fontWeight: FontWeight.w600),
+    // TODO: 12. Wrap this inside ChangeNotifierProvider<CreateUsernameProvider>
+
+    return ChangeNotifierProvider(
+      create: (context) => CreateUsernameProvider()..validateUsername(),
+      builder: (context, _) {
+        return LoadingOverlay(
+          isLoading: context.watch<CreateUsernameProvider>().isLoading, // TODO: 12.1 listen to loading state
+          child: Scaffold(
+            appBar: CadetBankAppBar.pushStyle(),
+            body: SafeArea(
+              child: KeyboardDismissOnTap(
+                child: Stack(
+                  alignment: AlignmentDirectional.bottomCenter,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).viewInsets.bottom > 0
+                          ? 124
+                          : 0
+                      ),
+                      child: SizedBox(
+                        height: double.infinity,
+                        child: SingleChildScrollView(
+                          controller: _scrollController,
+                          physics: const ClampingScrollPhysics(),
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "Create a @username",
+                                  style: Theme.of(context).textTheme.displayLarge!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  "Send or request money with your Maya friends quickly with a username. Add it to your Maya card for an extra personal touch.",
+                                  style: Theme.of(context).textTheme.bodyLarge!
+                                    .copyWith(color: CustomColors.grey6Color),
+                                ),
+                                const SizedBox(height: 24),
+                                TextFormField(
+                                  focusNode: _focusNode,
+                                  autocorrect: false,
+                                  enableSuggestions: false,
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                    .copyWith(fontWeight: FontWeight.w600),
+                                  // TODO: 12.3 call `onUsernameChanged`
+                                  // snippet:cadetcreateonchange
+                                  onChanged: (value) => context.read<CreateUsernameProvider>().onUsernameChanged(value),
+                                  decoration: const InputDecoration(
+                                    labelText: "Username",
+                                    hintText: "Enter username",
+                                  ),
+                                ),
+                              ],
                             ),
-                            const SizedBox(height: 8),
-                            Text(
-                              "Send or request money with your Maya friends quickly with a username. Add it to your Maya card for an extra personal touch.",
-                              style: Theme.of(context).textTheme.bodyLarge!
-                                .copyWith(color: CustomColors.grey6Color),
-                            ),
-                            const SizedBox(height: 24),
-                            TextFormField(
-                              focusNode: _focusNode,
-                              autocorrect: false,
-                              enableSuggestions: false,
-                              style: Theme.of(context).textTheme.titleSmall!
-                                .copyWith(fontWeight: FontWeight.w600),
-                              // snippet:cadetcreateonchange
-                              decoration: const InputDecoration(
-                                labelText: "Username",
-                                hintText: "Enter username",
-                              ),
-                            ),
-                          ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                ),
-                Container(
-                  color: CustomColors.primaryWhiteColor,
-                  padding: const EdgeInsets.all(24),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      // if (context.watch<CreateUsernameProvider>().apiError != null)
-                      //   Text(context.read<CreateUsernameProvider>().apiError!),
-                      const SizedBox(height: 20),
-                      TextButton(
-                        onPressed: false // snippet:cadetcreateisValid
-                          ? () async {
-                            // Dismiss keyboard
-                            FocusScope.of(context).unfocus();
+                    Container(
+                      color: CustomColors.primaryWhiteColor,
+                      padding: const EdgeInsets.all(24),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          const SizedBox(height: 20),
+                          // TODO: 12.2. Disable button when username is invalid
+                          TextButton(
+                            onPressed: context.watch<CreateUsernameProvider>().isFlowValid
+                              ? () async {
+                                  // Dismiss keyboard
+                                  FocusScope.of(context).unfocus();
 
-                            // Call update api
-                            final res = await context
-                              .read<CreateUsernameProvider>() 
-                              .updateUsername();
+                                  // Call update api
+                                  final res = await context
+                                    .read<CreateUsernameProvider>() 
+                                    .updateUsername();
 
-                            if (res != null) {
-                              // update current user
-                              // context
-                                // .read<AppState>()
-                                // .updateCurrentUser(res.updatedUser);
+                                  if (res != null) {
+                                    // TODO: 13. update current user
+                                    // snippet:providerupdateusercreation
+                                    context.read<AppState>().updateCurrentUser(res.updatedUser);
 
-                              // pop to previous screen
-                              Navigator.of(context).pop();
-                            }
-                          }
-                          : null,
-                        child: const Text("Next"),
+                                    // pop to previous screen
+                                    Navigator.of(context).pop();
+                                  }
+                                }
+                              : null,
+                            child: const Text("Next"),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ),
-      ),
+        );
+      }
     );
   }
 }

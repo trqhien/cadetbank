@@ -29,7 +29,6 @@ class LoginPage extends StatelessWidget {
       builder: (context, _) {
         return LoadingOverlay(
         isLoading: context.watch<LoginProvider>().isLoading,
-        // isLoading: Provider.of<LoginProvider>(context, listen: true).isLoading,
         child: Scaffold(
           appBar: CadetBankAppBar.empty(),
           body: KeyboardDismissOnTap(
@@ -106,8 +105,9 @@ class LoginPage extends StatelessWidget {
                                 .login();
         
                               if (res != null) {
-                                // update current user
-                                // context.read<AppState>().updateCurrentUser(res.user);
+                                // TODO: 3. update current user
+                                // snippet:providerupdateuser
+                                context.read<AppState>().updateCurrentUser(res.user);
                                 
                                 // Push to home screen
                                 Navigator.of(context).pushReplacementNamed("/home");
