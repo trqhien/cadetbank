@@ -37,7 +37,8 @@ class _LoginPageState extends State<LoginPage> {
         receiveTimeout: const Duration(seconds: 10),
       )
     );
-    // _dio.interceptors.add(DioPrinter());
+    // TODO: 2. Add DioPrinter intercaptor
+    // snippet:dioprinterinterceptor
     return _dio;
   }
 
@@ -195,6 +196,10 @@ class _LoginPageState extends State<LoginPage> {
     setState(() {});
   }
 }
+
+
+// TODO: Create DioPrinter
+// snippet:dioprinter
 
 // class DioPrinter extends Interceptor {
 //   @override
