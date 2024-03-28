@@ -6,7 +6,7 @@ import 'package:network/network.dart';
 
 @Injectable(as: IAuthService)
 class AuthService implements IAuthService {
-  AuthService(@Named("dio_auth_use_cases") this.dio);
+  AuthService(@Named("cadetbank") this.dio);
 
   final Dio dio;
 
@@ -26,7 +26,7 @@ class AuthService implements IAuthService {
 
       return ApiResponse.fromJson(response.data!, LoginResponse.fromJson);
     } catch (err) {
-      throw NetworkFailure(err.toString(), error: err);
+      throw CadetNetworkFailure(err.toString(), error: err);
     }
   }
 
@@ -36,7 +36,7 @@ class AuthService implements IAuthService {
       final response = await dio.post<Map<String, dynamic>>("/auth/logout");
       return ApiResponse.fromJson(response.data!, LogoutResponse.fromJson);
     } catch (err) {
-      throw NetworkFailure(err.toString(), error: err);
+      throw CadetNetworkFailure(err.toString(), error: err);
     }
   }
 }

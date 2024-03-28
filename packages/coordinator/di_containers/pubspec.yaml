@@ -4,15 +4,19 @@ version: 0.0.1
 publish_to: none
 
 environment:
-  sdk: ">=2.18.6 <3.0.0"
+  sdk: ">=2.18.0 <3.0.0"
   flutter: ^3.7.3
 
 dependencies:
   flutter:
     sdk: flutter
   get_it: 7.6.0
+  injectable: 2.1.2
+
   di:
     path: ../../Shared/di
+  paymaya_dev_login:
+    path: ../../Features/dev_login
   auth_use_cases:
     path: ../../UseCases/auth_use_cases
   users_use_cases:
@@ -21,11 +25,13 @@ dependencies:
     path: ../../UseCases/local_storage_use_cases
   shared_states:
     path: ../../Shared/shared_states
+  network:
+    path: ../../Shared/network
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
-
+  build_runner: 2.2.1
+  injectable_generator: 2.1.4
 
 flutter:

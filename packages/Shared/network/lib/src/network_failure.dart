@@ -1,8 +1,8 @@
-class NetworkFailure {
+class CadetNetworkFailure {
   final Object? error;
   final String message;
 
-  NetworkFailure(this.message, {this.error});
+  CadetNetworkFailure(this.message, {this.error});
 
   @override
   String toString() => error?.toString() ?? message;

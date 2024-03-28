@@ -1,0 +1,17 @@
+targets:
+  $default:
+    builders:
+      json_serializable:
+        generate_for:
+          - lib/**.dart
+        options:
+          explicit_to_json: true
+      retrofit_generator:retrofit:
+        generate_for:
+          - lib/**.dart
+      hive_generator:
+        generate_for:
+          - lib/**.dart
+      injectable_generator:injectable_config_builder:
+        generate_for:
+          - lib/**.dart

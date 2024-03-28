@@ -438,7 +438,7 @@ packages:
     source: hosted
     version: "2.0.1"
   local_storage:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../Shared/local_storage"
       relative: true
@@ -500,7 +500,7 @@ packages:
     source: hosted
     version: "1.0.0"
   network:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../Shared/network"
       relative: true
@@ -627,7 +627,7 @@ packages:
     source: hosted
     version: "1.2.3"
   shared_models:
-    dependency: transitive
+    dependency: "direct overridden"
     description:
       path: "../../Shared/shared_models"
       relative: true
@@ -854,5 +854,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-  dart: ">=2.19.2 <3.0.0"
+  dart: ">=2.19.0 <3.0.0"
   flutter: ">=3.7.3"

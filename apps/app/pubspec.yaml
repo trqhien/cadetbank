@@ -1,0 +1,72 @@
+name: mayabank_app
+description: A new Flutter project.
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  mayabank_module:
+    path: ../../packages/AppLayer/mayabank_module
+  di_containers:
+    path: ../../packages/coordinator/di_containers
+
+dependency_overrides:
+  flutter_keyboard_visibility: 5.4.0
+  injectable:  2.1.2
+  shared_preferences: 2.2.0
+  dio: 5.3.2
+
+flutter:
+  uses-material-design: true
+  # assets:
+  #   - assets/icons/
+  #   - assets/images/
+  
+  # fonts:
+  #   - family: Jeko
+  #     fonts:
+  #       - asset: assets/fonts/Jeko-Extra-Light.otf
+  #         weight: 200
+  #       - asset: assets/fonts/Jeko-Light.otf
+  #         weight: 300
+  #       - asset: assets/fonts/Jeko-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/Jeko-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/Jeko-Semi-Bold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/Jeko-Bold.otf
+  #         weight: 700
+  #       - asset: assets/fonts/Jeko-Extra-Bold.otf
+  #         weight: 800
+  #       - asset: assets/fonts/Jeko-Black.otf
+  #         weight: 900
+  #   - family: CerebriSansPro
+  #     fonts:
+  #       - asset: assets/fonts/CerebriSansPro-Thin.otf
+  #         weight: 100
+  #       - asset: assets/fonts/CerebriSansPro-Extra-Light.otf
+  #         weight: 200
+  #       - asset: assets/fonts/CerebriSansPro-Light.otf
+  #         weight: 300
+  #       - asset: assets/fonts/CerebriSansPro-Regular.otf
+  #         weight: 400
+  #       - asset: assets/fonts/CerebriSansPro-Medium.otf
+  #         weight: 500
+  #       - asset: assets/fonts/CerebriSansPro-Semi-Bold.otf
+  #         weight: 600
+  #       - asset: assets/fonts/CerebriSansPro-Bold.otf
+  #         weight: 700
+  #       - asset: assets/fonts/CerebriSansPro-Extra-Bold.otf
+  #         weight: 800
+  #   - family: CerebriSansPro-Heavy
+  #     fonts:
+  #       - asset: assets/fonts/CerebriSansPro-Heavy.otf
+  #   - family: CerebriSansPro-Book
+  #     fonts:
+  #       - asset: assets/fonts/CerebriSansPro-Book.otf

@@ -1,0 +1,108 @@
+name: restricted_login_flow
+description: A new Flutter package project.
+version: 0.0.1
+publish_to: "none"
+
+environment:
+  sdk: ">=2.18.0 <3.0.0"
+  flutter: ^3.7.3
+
+_internal_variables_:
+  - &core_util 2.0.2
+  - &spki_pinner 2.0.2
+  - &lookout 2.0.3
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  maya_dependency_manager:
+    git:
+      url: git@gitlab.corp.paymaya.com:finserv/commons/mobile-flutter-core.git
+      ref: *core_util
+      path: maya_dependency_manager
+
+  spki_pinner:
+    git:
+      url: git@gitlab.corp.paymaya.com:finserv/commons/mobile-flutter-core.git
+      ref: *spki_pinner
+      path: maya_spki_pinner
+
+  maya_lookout:
+    git:
+      url: git@gitlab.corp.paymaya.com:finserv/commons/mobile-flutter-core.git
+      ref: *lookout
+      path: maya_lookout
+
+  go_router: 12.1.1
+
+dependency_overrides:
+  archive: 3.3.8
+
+dev_dependencies:
+  injectable_generator: ^1.5.2
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  build_runner: 2.2.1
+  http_mock_adapter: ^0.4.2
+  retrofit_generator: ^5.0.0+1
+  remove_from_coverage: ^2.0.0
+  hive_generator: 1.1.3
+  hive_test: 1.0.1
+  freezed: 2.1.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - lib/src/resources/assets/icons/
+    - lib/src/resources/assets/images/
+    - lib/src/resources/assets/animations/
+
+  fonts:
+    - family: Jeko
+      fonts:
+        - asset: lib/src/resources/assets/fonts/Jeko-Extra-Light.otf
+          weight: 200
+        - asset: lib/src/resources/assets/fonts/Jeko-Light.otf
+          weight: 300
+        - asset: lib/src/resources/assets/fonts/Jeko-Regular.otf
+          weight: 400
+        - asset: lib/src/resources/assets/fonts/Jeko-Medium.otf
+          weight: 500
+        - asset: lib/src/resources/assets/fonts/Jeko-Semi-Bold.otf
+          weight: 600
+        - asset: lib/src/resources/assets/fonts/Jeko-Bold.otf
+          weight: 700
+        - asset: lib/src/resources/assets/fonts/Jeko-Extra-Bold.otf
+          weight: 800
+        - asset: lib/src/resources/assets/fonts/Jeko-Black.otf
+          weight: 900
+    - family: CerebriSansPro
+      fonts:
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Thin.otf
+          weight: 100
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Extra-Light.otf
+          weight: 200
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Light.otf
+          weight: 300
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Regular.otf
+          weight: 400
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Medium.otf
+          weight: 500
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Semi-Bold.otf
+          weight: 600
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Bold.otf
+          weight: 700
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Extra-Bold.otf
+          weight: 800
+    - family: CerebriSansPro-Heavy
+      fonts:
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Heavy.otf
+    - family: CerebriSansPro-Book
+      fonts:
+        - asset: lib/src/resources/assets/fonts/CerebriSansPro-Book.otf
+    - family: NotoColorEmoji
+      fonts:
+        - asset: lib/src/resources/assets/fonts/NotoColorEmoji-Regular.ttf

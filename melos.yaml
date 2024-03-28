@@ -1,0 +1,47 @@
+name: mayabank_monorepo
+repository: 
+  type: gitlab
+  origin: https://gitlab.corp.paymaya.com
+  owner: hien.tran
+  name: monorepo
+
+# sdkPath: .fvm/flutter_sdk
+
+packages:
+  - packages/**
+  - apps/**
+
+command:
+  version:
+    # Generate commit links in package changelogs.
+    linkToCommits: true
+    # Only allow versioning to happen on main branch.
+    branch: main
+    # Additionally build a changelog at the root of the workspace.
+    workspaceChangelog: true
+  bootstrap:
+    runPubGetInParallel: false
+    environment:
+      sdk: ">=2.18.0 <3.0.0"
+      flutter: ^3.7.3
+    
+
+scripts:
+  generate:
+    # run: fvm flutter pub run build_runner build
+    run: melos exec --concurrency=1 -- \
+      fvm flutter pub run build_runner build --delete-conflicting-outputs
+    description: Run `flutter pub run build_runner build`
+    packageFilters:
+      flutter: true
+  watch:
+    run: flutter pub run build_runner watch
+    description: Run `flutter pub run build_runner watch`
+    packageFilters:
+      flutter: true
+  analyze:
+    run: melos exec --concurrency=1 -- "flutter analyze ."
+    description: Run Flutter analyze in all flutter packages.
+    packageFilters:
+      flutter: true
+  
